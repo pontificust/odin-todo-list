@@ -4,7 +4,7 @@ export class StorageManager {
     }
 
     isEmpty() {
-        return this.localStorage === 0;
+        return this.localStorage.length === 0;
     }
 
     updateStorage = (projects) => {

@@ -16,14 +16,11 @@ export class StateManager {
 
     hydrate() {
 
-        //2. Hydrate data from the localStorage
-        for (let project of this.projects) {
-            project = new Project(project);
-            let tasks = project.tasks;
-            for (let task of tasks) {
-                task = new Task(task);
-            }
-        }
+        this.projects = this.projects.map(project => {
+            const hydratedProject = new Project(project);
+            hydratedProject.tasks = hydratedProject.tasks.map(task => new Task(task));
+            return hydratedProject;
+        });
         console.log(this.projects)
     }
 

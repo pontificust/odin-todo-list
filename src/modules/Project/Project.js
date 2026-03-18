@@ -1,19 +1,19 @@
 export class Project {
-    #tasks = [];
     #isArchived = false;
 
-    constructor(title, color) {
+    constructor({title = 'default', color = 'gray', tasks = []}) {
         this.title = title;
         this.color = color;
+        this.tasks = tasks;
     }
 
     addTask(task) {
-        this.#tasks.push(task);
+        this.tasks.push(task);
     }
 
     removeTask(id) {
-        const indexToRemove = this.#tasks.findIndex(task => task.id === id);
-        this.#tasks.splice(indexToRemove, 1);
+        const indexToRemove = this.tasks.findIndex(task => task.id === id);
+        this.tasks.splice(indexToRemove, 1);
     }
 
     finishProject() {

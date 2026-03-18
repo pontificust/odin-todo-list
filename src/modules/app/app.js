@@ -1,36 +1,53 @@
-import { EventHanler } from "../eventHandler/eventHandler.js";
-import { projects } from "./appData.js";
+import { EventHandler } from "../eventHandler/eventHandler.js";
 import { Project } from "../Project/Project.js";
-import { Task } from "../Task/Task.js";
+import { StorageManager } from "../StorageManager/StorageManager.js";
+import { StateManager } from "../StateManager/StateManager.js";
 
 export const app = () => {
 
-    const addProject = () => {
-        const title = prompt(`Input project's name`, '');
-        const color = prompt(`Input project's color`, 'grey');
+    const storageManager = new StorageManager();
+    const stateManager = new StateManager();
 
-        const newProject = new Project(title, color);
-        projects.push(newProject);
-        console.log(projects);
+    //1. Load data form the localStorage
+    if (storageManager.isEmpty()) {
+        stateManager.loadProjects(new Project({}));
+        storageManager.updateStorage(stateManager.projects);
+    } else {
+        const data = storageManager.getDataset('projects');
+        stateManager.loadProjects(data);
+        stateManager.hydrate();
+        console.log(stateManager.projects)
     }
 
-    const addTask = () => {
-        const title = prompt(`Input task's name`, '');
-        const description = prompt(`Input task's description`, '');
-        const dueDate = prompt(`Input task's dueDate`, '');
-        const priority = prompt(`Input task's priority`, '');
-        const project = prompt(`Input project's name`, '0');
+    // 3. Show current stateManager.projects and tasks
 
-        const newTask = new Task(title, description, dueDate, priority);
-        projects[+project].addTask(newTask);
-        console.log(projects);
+    const render = (projects) => {
+        for (let i = 0; i < projects.length; i += 1) {
+            console.log(`${i}. ${projects[i].title}`);
+            const tasks = projects[i].tasks;
+            for (let j = 0; j < tasks.length; j += 1) {
+                console.log(`${j}. ${tasks[j].title}`);
+            }
+        }
+        console.log(projects)
     }
 
-    const eventHandler = new EventHanler(addProject, addTask);
-    // 1. Firstly, we need user to be able to add a task or a project.
+    render(stateManager.projects);
+
+    const eventHandler = new EventHandler(
+        stateManager.addProject,
+        stateManager.addTask,
+        storageManager.updateStorage,
+        render
+    );
+
     document.addEventListener('click', (e) => {
-        if(e.target.dataset.id){
+        if (e.target.dataset.id) {
             eventHandler.click[e.target.dataset.id]();
         }
-    }); 
+    });
+
+    document.addEventListener('updateStorage', () => {
+        eventHandler.updateStorage(stateManager.projects);
+    });
 }

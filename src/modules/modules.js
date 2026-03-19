@@ -1,1 +1,5 @@
-export { app } from "./app/app.js";
+export { render } from "./render/render.js";
+export { Project } from "./Project/Project.js";
+export { EventHandler } from "./eventHandler/eventHandler.js";
+export { StateManager } from "./StateManager/StateManager.js";
+export { StorageManager } from "./StorageManager/StorageManager.js";

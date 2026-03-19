@@ -5,13 +5,12 @@ export class StateManager {
     projects = []
     event = new CustomEvent('updateStorage')
 
-    constructor(project) {
-        this.projects.push(project);
+    constructor() {
     }
 
     loadProjects(data) {
         this.projects = data;
-        console.log(this.projects)
+        console.log(this.projects);
     }
 
     hydrate() {
@@ -21,15 +20,20 @@ export class StateManager {
             hydratedProject.tasks = hydratedProject.tasks.map(task => new Task(task));
             return hydratedProject;
         });
-        console.log(this.projects)
+        console.log(this.projects);
     }
 
-    addProject = () => {
+    addProject = (defaultProject) => {
+        console.log(this.projects)
+        if(defaultProject) {
+            this.projects.push(defaultProject);
+            return;
+        }
         const title = prompt(`Input project's name`, '');
         const color = prompt(`Input project's color`, 'grey');
 
         const newProject = new Project({ title, color });
-        console.log(this.projects)
+        console.log(this.projects);
         this.projects.push(newProject);
         document.dispatchEvent(this.event);
     }
@@ -39,7 +43,7 @@ export class StateManager {
         const description = prompt(`Input task's description`, '');
         const dueDate = prompt(`Input task's dueDate`, '');
         const priority = prompt(`Input task's priority`, '');
-        const projectTitle = prompt(`Input project's name`, '0');
+        const projectTitle = prompt(`Input project's name`, 'default');
 
         const newTask = new Task({ title, description, dueDate, priority });
         this.projects.find(project => project.title === projectTitle).addTask(newTask);

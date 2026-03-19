@@ -23,13 +23,22 @@ export class StateManager {
         console.log(this.projects);
     }
 
+    #isProjectExist(title) {
+        return this.projects.some(project => project.title === title);
+    }
+
     addProject = (defaultProject) => {
         console.log(this.projects)
-        if(defaultProject) {
+        if (defaultProject) {
             this.projects.push(defaultProject);
             return;
         }
-        const title = prompt(`Input project's name`, '');
+        let title = prompt(`Input project's name`, '');
+        if (this.#isProjectExist(title)) {
+            console.log(`Please chose another name for your project.
+                 Provided name exists`);
+            title = prompt(`Input project's name`, '');
+        }
         const color = prompt(`Input project's color`, 'grey');
 
         const newProject = new Project({ title, color });

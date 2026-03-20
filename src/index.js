@@ -3,13 +3,16 @@ import {
     StateManager,
     StorageManager,
     EventHandler,
-    Project
+    Project,
+    User,
+    Task
  } from "./modules/modules.js"
 
 window.addEventListener('DOMContentLoaded', () => {
     // 0. Initialization of data managers
     const storageManager = new StorageManager();
     const stateManager = new StateManager();
+    const user = new User('Courier');
 
     // 1. Load data form the localStorage
     if (storageManager.isEmpty()) {
@@ -29,6 +32,7 @@ window.addEventListener('DOMContentLoaded', () => {
         stateManager.addProject,
         stateManager.addTask,
         storageManager.updateStorage,
+        user.addXP,
         render
     );
 
@@ -40,5 +44,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('updateStorage', () => {
         eventHandler.updateStorage(stateManager.projects);
+    });
+
+    document.addEventListener('taskFinished', (e) => {
+        eventHandler.taskFinished(e.detail.xp);
     });
 });

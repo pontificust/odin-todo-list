@@ -3,10 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <title>Todo List</title>
 </head>
 <body>
-    <button data-id="project">Add project</button>
-    <button data-id="task">Add task</button>
+    <header class="header">
+        <section class="header__logo">
+            <p class="header__title-upper">Subject</p>
+            <h1 class="header__title">The Survival Log</h1>
+            <p class="header__title-beneath">Glutton Settlement System</p>
+        </section>
+        <section class="header__user-info">
+            <p class="header__user-rank">Rank: <span>specialist</span></p>
+            <p class="header__user-xp">Total XP: <span>15.450</span></p>
+            <div class="header__user-level">
+                <label class="header__user-label" for="level">Level: 24</label>
+                <progress id="level" max="24000" value="15450" class="header__user-input"></progress>
+            </div>
+        </section>
+    </header>
+    <aside class="aside">
+        <h2 class="aside__title">Sectors</h2>
+        <nav class="aside__menu">
+            <ul class="aside__menu-projects">
+                <li class="aside__menu-project">
+                    <img src="assets/img/folder.svg" width="16" height="16" alt="" class="aside__menu-icon">
+                    <p class="aside__menu-name">Home</p>
+                </li>
+                <li class="aside__menu-project">
+                    <img src="assets/img/folder.svg" width="16" height="16" alt="" class="aside__menu-icon">
+                    <p class="aside__menu-name">Gym</p>
+                </li>
+                <li class="aside__menu-project">
+                    <img src="assets/img/folder.svg" width="16" height="16" alt="" class="aside__menu-icon">
+                    <p class="aside__menu-name">Code</p>
+                </li>
+            </ul>
+        </nav>
+        <button class="aside__button">Add Project</button>
+    </aside>
+    <main class="main">
+        <h2 class="main__title">Active Objectives</h2>
+        <table class="main__table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>due</th>
+                    <th>status</th>
+                    <th>xp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Visit GoodSprings</th>
+                    <th>2281.10.12</th>
+                    <th>[CRITICAL]</th>
+                    <th>XP REWARD +50 XP</th>
+                </tr>
+                <tr>
+                    <th>Kill a gecko</th>
+                    <th>2281.10.12</th>
+                    <th>[CRITICAL]</th>
+                    <th>XP REWARD +50 XP</th>
+                </tr>
+                <tr>
+                    <th>Buy some nuke cola</th>
+                    <th>2281.10.12</th>
+                    <th>[CRITICAL]</th>
+                    <th>XP REWARD +50 XP</th>
+                </tr>
+                <tr>
+                    <th>Join brotherhood of steel</th>
+                    <th>2281.10.12</th>
+                    <th>[CRITICAL]</th>
+                    <th>XP REWARD +50 XP</th>
+                </tr>
+                <tr>
+                    <th>Repair radio</th>
+                    <th>2281.10.12</th>
+                    <th>[CRITICAL]</th>
+                    <th>XP REWARD +50 XP</th>
+                </tr>
+            </tbody>
+        </table>
+        <button class="main__button">Add Task</button>
+    </main>
 </body>
 </html>

@@ -6,7 +6,9 @@ import {
     Project,
     User,
     Task
- } from "./modules/modules.js"
+ } from "./modules/modules.js";
+
+ import "./assets/css/global.css";
 
 window.addEventListener('DOMContentLoaded', () => {
     // 0. Initialization of data managers

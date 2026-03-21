@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/global.css">
     <title>Todo List</title>
 </head>
 <body>
@@ -13,12 +12,14 @@
             <h1 class="header__title">The Survival Log</h1>
             <p class="header__title-beneath">Glutton Settlement System</p>
         </section>
-        <section class="header__user-info">
-            <p class="header__user-rank">Rank: <span>specialist</span></p>
-            <p class="header__user-xp">Total XP: <span>15.450</span></p>
+        <section class="header__user">
+            <p class="header__user-info">Rank: <span>specialist</span></p>
+            <p class="header__user-info">Total XP: <span>15.450</span></p>
             <div class="header__user-level">
-                <label class="header__user-label" for="level">Level: 24</label>
-                <progress id="level" max="24000" value="15450" class="header__user-input"></progress>
+                <p class="header__user-info">Level: <span>24</span></p>
+                <div class="header__user-progress">
+                    <div class="header__user-bar"></div>
+                </div>
             </div>
         </section>
     </header>

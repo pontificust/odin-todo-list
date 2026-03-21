@@ -1,3 +1,30 @@
+@font-face {
+    font-family: 'Orbitron';
+    src: url('../fonts/Orbitron-Bold.woff2') format('woff2'),
+        url('../fonts/Orbitron-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono bold';
+    src: url('../fonts/IBMPlexMono-Bold.woff2') format('woff2'),
+        url('../fonts/IBMPlexMono-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono reg';
+    src: url('../fonts/IBMPlexMono-Regular.woff2') format('woff2'),
+        url('../fonts/IBMPlexMono-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -479,3 +506,100 @@ html {
 *::after {
     box-sizing: inherit;
 }
+
+:root {
+    --body-background-color: #121619;
+    --header-background-color: #1A1C1E;
+    --primary-amber-color: #FFB800;
+    --shadow-color: rgba(255, 184, 0, 0.6);
+    --status-red-color: #FF3D3D;
+    --secondary-text-color: #A0AEC0;
+    --border: 5px solid #2D3748;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template: max-content auto / 1fr 5fr;
+    gap: 50px;
+    background-color: var(--body-background-color);
+    font-family: 'IBM Plex Mono reg', sans-serif;
+}
+
+/* header styles start */
+
+header {
+    grid-area: 1 / 1 / 2 / 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding: 40px;
+    font-size: clamp(1.6rem, 2.5vw, 3rem);
+    color: var(--secondary-text-color);
+    background-color: var(--header-background-color);
+    border-bottom: var(--border);
+}
+
+.header__logo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.header__title-beneath {
+    font-family: 'IBM Plex Mono bold', sans-serif;
+}
+
+.header__title{
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    color: var(--primary-amber-color);
+    text-shadow: 0px 0px 10px var(--shadow-color);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.header__user {
+    display: grid;
+    grid-template: repeat(2, max-content) / repeat(2, 1fr);
+    gap: 15px;
+    column-gap: 50px;
+}
+
+.header__user-level {
+    grid-area: 2 / 1 / 3 / 3;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.header__user-info {
+    text-transform: uppercase;
+}
+
+.header__user-info span {
+    color: var(--primary-amber-color);
+    text-shadow: 0px 0px 5px var(--primary-amber-color);
+}
+
+.header__user-info:last-of-type {
+    justify-self: end;
+}
+
+.header__user-progress {
+    flex: 1;
+    height: clamp(1.6rem, 2.5vw, 3rem);
+    background-color: transparent;
+    border-radius: 20px;
+    outline: var(--border);
+}
+
+.header__user-bar {
+    background-color: var(--primary-amber-color);
+    width: 75%;
+    height: 100%;
+    border-radius: 20px 0px 0px 20px;
+}
+
+/* header styles end */

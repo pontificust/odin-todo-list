@@ -518,6 +518,7 @@ body {
     background-color: var(--body-background-color);
     font-family: 'IBM Plex Mono reg', sans-serif;
     font-size: clamp(1.6rem, 2.5vw, 3rem);
+    color: var(--secondary-text-color);
 }
 
 /* header styles start */
@@ -529,7 +530,6 @@ header {
     flex-wrap: wrap;
     gap: 50px;
     padding: 40px;
-    color: var(--secondary-text-color);
     background-color: var(--section-background-color);
     border-bottom: var(--border);
     text-transform: uppercase;
@@ -597,9 +597,15 @@ header {
 
 .main {
     display: grid;
-    grid-template-columns: max-content auto;
+    grid-template-columns: 1fr 4fr;
     gap: 50px;
     padding: 0 50px;
+}
+
+@media screen and (max-width: 1000px) {
+    .main {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* aside styles start */
@@ -648,11 +654,116 @@ header {
 /* tasks styles start */
 
 .tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
     padding: 30px;
     background-color: var(--section-background-color);
     border: var(--border);
 }
 
+.tasks__title {
+    color: var(--primary-amber-color);
+    text-shadow: 0 0 5px var(--primary-amber-color);
+    text-transform: uppercase;
+    margin-bottom: 50px;
+}
+
+.tasks__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+}
+
+.tasks__card {
+    display: grid;
+    grid-template-columns: 6fr 1fr;
+    gap: 30px;
+    background-color: #2D3748;
+    padding: 30px;
+}
+
+.tasks__card-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;    
+}
+
+.tasks__card-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding-left: 30px;
+}
+
+.tasks__name {
+    color: var(--primary-amber-color);
+    font-family: 'IBM Plex Mono bold', sans-serif;
+    text-transform: capitalize;
+    font-size: clamp(2rem, 3vw, 4rem);
+    text-shadow: 0 0 5px var(--primary-amber-color);
+}
+
+.tasks__priority {
+    background-color: var(--status-red-color);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.tasks__date {
+    text-transform: uppercase;
+}
+
+.tasks__card-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tasks__card-btn {
+    max-width: 100px;
+    max-height: 100px;
+    background-color: #089e1c;
+}
+
+.tasks__card-btn:nth-of-type(2) {
+    background-color: #575151;
+}
+
+.tasks__card-btn img {
+    width: 50px;
+    height: 50px;
+}
+
+.tasks__btn {
+    background-color: var(--primary-amber-color);
+    box-shadow: 0 0 10px var(--primary-amber-color);
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
 /* tasks styles end */
+
+.active {
+    background-color: #FFB80050;
+    box-shadow: 0 0 10px #FFB80050;
+}
+
+.critical {
+    border-left: 5px solid var(--status-red-color);
+}
+
+.moderate {
+    border-left: 5px solid var(--primary-amber-color);
+}
+
+.easy {
+    border-left: 5px solid #089e1c;
+}
 
 /* main styles end */

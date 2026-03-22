@@ -23,6 +23,10 @@ export class Task {
         document.dispatchEvent(taskFinishedEvent);
     }
 
+    getXp() {
+        return this.#xp;
+    }
+
     restartTask() {
         this.#isDone = false;
     }

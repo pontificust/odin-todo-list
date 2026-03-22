@@ -1,5 +1,6 @@
 export const createElement = ({ tag, content, attributes }) => {
     const element = document.createElement(tag);
+    console.log(tag)
     element.classList.add(attributes.className);
     if (content) {
         if (typeof content === 'string') {

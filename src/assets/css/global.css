@@ -641,11 +641,16 @@ header {
 }
 
 .aside__button {
-    text-transform: uppercase;
     font-size: 2rem;
     background-color: transparent;
-    border: 1px solid var(--primary-amber-color);
     color: var(--primary-amber-color);
+    text-shadow: 0 0 5px var(--primary-amber-color);
+    box-shadow: 0 0 10px var(--primary-amber-color),
+    0 10px 0 #ffb88050;
+}
+
+.aside__button:hover {
+    box-shadow: 0 0 10px var(--primary-amber-color);
 }
 
 /* aside styles end */
@@ -721,19 +726,24 @@ header {
 .tasks__card-btns {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 .tasks__card-btn {
     max-width: 100px;
     max-height: 100px;
     background-color: #089e1c;
+    box-shadow: 0 10px 0 #089e1c80;
 }
 
 .tasks__card-btn:nth-of-type(2) {
     background-color: #575151;
+    box-shadow: 0 10px 0 #57515180;
 }
 
+.tasks__card-btn:hover {
+    box-shadow: none;
+}
 .tasks__card-btn img {
     width: 50px;
     height: 50px;
@@ -741,10 +751,14 @@ header {
 
 .tasks__btn {
     background-color: var(--primary-amber-color);
-    box-shadow: 0 0 10px var(--primary-amber-color);
+    box-shadow: 0 0 10px var(--primary-amber-color),
+    0 10px 0 #ffb88050;
     padding: 10px 20px;
     border-radius: 20px;
-    text-transform: uppercase;
+}
+
+.tasks__btn:hover {
+    box-shadow: 0 0 10px var(--primary-amber-color);
 }
 
 /* tasks styles end */
@@ -890,10 +904,6 @@ option {
     flex: 1;
     max-width: 180px;
     padding: 10px 0;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all .4s;
-    border:none;
 }
 
 .popup__btn:nth-of-type(1) {
@@ -905,7 +915,6 @@ option {
 
 .popup__btn:nth-of-type(1):hover{
     box-shadow: 0 0 10px var(--primary-amber-color);
-    transform: translateY(10px);
 }
 
 .popup__btn:nth-of-type(2) {
@@ -917,11 +926,21 @@ option {
 
 .popup__btn:nth-of-type(2):hover{
     box-shadow: 0 0 10px #575151;
-    transform: translateY(10px);
 }
 
 .close {
     display: none;
+}
+
+.button {
+    cursor: pointer;
+    border: none;
+    transition: all .4s;
+    text-transform: uppercase;
+}
+
+.button:hover {
+    transform: translateY(10px);
 }
 
 

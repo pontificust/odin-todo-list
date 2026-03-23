@@ -66,7 +66,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('submit', (e) => {
-        console.log(e.target)
         if (e.target.dataset.id) {
             eventHandler.submit[e.target.dataset.id](e);
         }

@@ -7,7 +7,8 @@ export class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.#xp = priority * 100;
+        this.#xp = priority === 'critical' ? 300 : 
+        priority === 'moderate' ? 200 : 100;
         this.id = crypto.randomUUID();
     }
 
@@ -24,6 +25,7 @@ export class Task {
     }
 
     getXp() {
+        console.log(this.#xp)
         return this.#xp;
     }
 

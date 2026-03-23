@@ -47,15 +47,14 @@ export class StateManager {
         document.dispatchEvent(this.event);
     }
 
-    addTask = () => {
-        const title = prompt(`Input task's name`, '');
-        const description = prompt(`Input task's description`, '');
-        const dueDate = prompt(`Input task's dueDate`, '');
-        const priority = prompt(`Input task's priority`, '');
-        const projectTitle = prompt(`Input project's name`, 'default');
+    addTask = (e) => {
+        e.preventDefault();
 
+        const { title, description, dueDate, priority } = Object.fromEntries(new FormData(e.target));
+        const projectTitle = 'default';
         const newTask = new Task({ title, description, dueDate, priority });
         this.projects.find(project => project.title === projectTitle).addTask(newTask);
         document.dispatchEvent(this.event);
+        console.log(this.projects);
     }
 }

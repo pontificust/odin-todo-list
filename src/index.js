@@ -30,17 +30,45 @@ window.addEventListener('DOMContentLoaded', () => {
     // 3. Show current stateManager.projects and tasks
     render(stateManager.projects);
 
+    const closePopup = () => {
+        const popupOverlay = document.querySelector('.overlay');
+        const popupInputs = document.querySelectorAll('.popup__input');
+
+        popupInputs.forEach(input => {
+            input.required = false;
+            input.value = '';
+        });
+        popupOverlay.classList.add('close');
+    }
+
+    const openPopup = () => {
+        const popupOverlay = document.querySelector('.overlay');
+        const popupInputs = document.querySelectorAll('.popup__input');
+
+        popupInputs.forEach(input => input.required = true);
+        popupOverlay.classList.remove('close');
+    }
+
     const eventHandler = new EventHandler(
         stateManager.addProject,
         stateManager.addTask,
         storageManager.updateStorage,
         user.addXP,
-        render
+        render,
+        closePopup,
+        openPopup
     );
 
     document.addEventListener('click', (e) => {
         if (e.target.dataset.id) {
-            eventHandler.click[e.target.dataset.id]();
+            eventHandler.click[e.target.dataset.id](e);
+        }
+    });
+
+    document.addEventListener('submit', (e) => {
+        console.log(e.target)
+        if (e.target.dataset.id) {
+            eventHandler.submit[e.target.dataset.id](e);
         }
     });
 

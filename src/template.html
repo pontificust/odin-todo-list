@@ -42,7 +42,7 @@
                     </li>
                 </ul>
             </nav>
-            <button class="aside__button">[Initialize new sector]</button>
+            <button class="aside__button" data-id="project">[Initialize new sector]</button>
         </aside>
         <section class="tasks">
             <h2 class="tasks__title">Active Objectives</h2>
@@ -168,8 +168,43 @@
                     </div>
                 </li>
             </ul>
-            <button class="tasks__btn">[initialize new objective]</button>
+            <button class="tasks__btn" data-id="openPopup">[initialize new objective]</button>
         </section>
     </main>
+    <div class="overlay">
+        <div class="popup__container">
+            <form action="#" class="popup" data-id="task">
+                <h2 class="popup__title">>>system input: new objective</h2>
+                <div class="popup__field">
+                    <lable for="title" class="popup__label">Objective label</lable>
+                    <input id="title" name="title" type="text" class="popup__input" required>
+                </div>
+                <div class="popup__field">
+                    <lable for="decription" class="popup__label">objective description</lable>
+                    <textarea id="description" name="description" class="popup__input"></textarea>
+                </div>
+                <div class="popup__field">
+                    <lable for="date" class="popup__label">timeline</lable>
+                    <div class="popup__date-wrapper">
+                        <input id="date" name="dueDate" type="date" class="popup__input" required>
+                    </div>
+                </div>
+                <div class="popup__field">
+                    <label for="priority">threat level</label>
+                    <div class="popup__select-wrapper">
+                        <select class="popup__input" name="priority" id="priority" required>
+                            <option value="critical">Critical</option>
+                            <option value="moderate" selected>Moderate</option>
+                            <option value="easy">Easy</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="popup__btns">
+                    <button type="submit" class="popup__btn">[execute]</button>
+                    <button class="popup__btn" data-id="closePopup">[abort]</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

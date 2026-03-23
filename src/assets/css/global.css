@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'IBM Plex Mono bold';
+    font-family: 'IBM Plex Mono blod';
     src: url('../fonts/IBMPlexMono-Bold.woff2') format('woff2'),
         url('../fonts/IBMPlexMono-Bold.woff') format('woff');
     font-weight: bold;
@@ -754,6 +754,18 @@ header {
     box-shadow: 0 0 10px #FFB80050;
 }
 
+.tasks__priority.critical {
+    background-color: var(--status-red-color);
+}
+
+.tasks__priority.moderate {
+    background-color: var(--primary-amber-color);
+}
+
+.tasks__priority.easy {
+    background-color: #089e1c;
+}
+
 .critical {
     border-left: 5px solid var(--status-red-color);
 }
@@ -765,5 +777,152 @@ header {
 .easy {
     border-left: 5px solid #089e1c;
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px);
+}
+
+.popup__container {
+    padding: 10px;
+}
+
+.popup,
+.popup__container {
+    border: 2px solid var(--primary-amber-color);
+    border-radius: 10px;
+}
+
+.popup {
+    color: var(--primary-amber-color);
+    text-transform: uppercase;
+    text-shadow: 0 0 5px var(--primary-amber-color);
+    padding: 30px;
+}
+
+.popup__title {
+    font-size: clamp(2rem, 3vw, 4rem);
+    font-family: 'IBM Plex Mono blod';
+    margin-bottom: 70px;
+}
+
+.popup__field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.popup__input {
+    background-color: transparent;
+    border: 2px solid var(--primary-amber-color);
+    border-radius: 10px;
+    color: var(--primary-amber-color);
+    padding: 8px 16px;
+    appearance: none;
+    width: 100%;
+}
+
+.popup__input:focus {
+    outline: none;
+    box-shadow: 0 0 20px var(--primary-amber-color);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
+.popup__date-wrapper {
+    position: relative;
+}
+
+.popup__date-wrapper::after {
+    content: '';
+    position: absolute;
+    background-image: url('../img/calendar.svg');
+    width: 30px;
+    height: 30px;
+    top: 12px;
+    right: 10px;
+    pointer-events: none;
+}
+
+.popup__select-wrapper {
+    position: relative;
+}
+
+.popup__select-wrapper::after {
+    content: '▼';
+    font-size: 3rem;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    pointer-events: none;
+}
+
+option {
+    color: #000;
+}
+
+.popup__btns {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.popup__btn {
+    flex: 1;
+    max-width: 180px;
+    padding: 10px 0;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .4s;
+    border:none;
+}
+
+.popup__btn:nth-of-type(1) {
+    background-color: var(--primary-amber-color);
+    color: var(--body-background-color);
+    box-shadow: 0px 10px 0 #ffb88050,
+    0 0 10px var(--primary-amber-color);
+}
+
+.popup__btn:nth-of-type(1):hover{
+    box-shadow: 0 0 10px var(--primary-amber-color);
+    transform: translateY(10px);
+}
+
+.popup__btn:nth-of-type(2) {
+    background-color: #5e6360;
+    color: var(--primary-amber-color);
+    box-shadow: 0px 10px 0 #57515180,
+    0 0 10px #575151;
+}
+
+.popup__btn:nth-of-type(2):hover{
+    box-shadow: 0 0 10px #575151;
+    transform: translateY(10px);
+}
+
+.close {
+    display: none;
+}
+
 
 /* main styles end */

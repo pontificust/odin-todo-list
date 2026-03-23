@@ -730,14 +730,17 @@ header {
 }
 
 .tasks__card-btn {
-    max-width: 100px;
-    max-height: 100px;
+    width: 70px;
+    height: 60px;
     background-color: #089e1c;
+    background-image: url('../img/check.svg');
+    background-position: center;
     box-shadow: 0 10px 0 #089e1c80;
 }
 
 .tasks__card-btn:nth-of-type(2) {
     background-color: #575151;
+    background-image: url('../img/delete.svg');
     box-shadow: 0 10px 0 #57515180;
 }
 

@@ -1,7 +1,6 @@
 export const createElement = ({ tag, content, attributes }) => {
     const element = document.createElement(tag);
-    console.log(tag)
-    element.classList.add(attributes.className);
+    element.classList.add(...attributes.className.split(' '));
     if (content) {
         if (typeof content === 'string') {
             element.textContent = content;
@@ -14,7 +13,7 @@ export const createElement = ({ tag, content, attributes }) => {
     if (attributes) {
         for (let key in attributes) {
             if (key !== 'className') {
-                element[key] = attributes[key];
+                element.setAttribute(key, attributes[key]);
             }
         }
     }

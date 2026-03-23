@@ -2,7 +2,7 @@ import { Task } from "../Task/Task.js";
 import { Project } from "../Project/Project.js";
 
 export class StateManager {
-    projects = []
+    projects = {}
     event = new CustomEvent('updateStorage')
 
     constructor() {
@@ -10,17 +10,16 @@ export class StateManager {
 
     loadProjects(data) {
         this.projects = data;
-        console.log(this.projects);
+        this.#hydrate();
     }
 
-    hydrate() {
+    #hydrate() {
 
-        this.projects = this.projects.map(project => {
-            const hydratedProject = new Project(project);
+        this.projects = Object.fromEntries(Object.entries(this.projects).map(project => {
+            const hydratedProject = new Project(project[1]);
             hydratedProject.tasks = hydratedProject.tasks.map(task => new Task(task));
-            return hydratedProject;
-        });
-        console.log(this.projects);
+            return [hydratedProject.id, hydratedProject];
+        }));
     }
 
     #isProjectExist(title) {
@@ -28,9 +27,8 @@ export class StateManager {
     }
 
     addProject = (defaultProject) => {
-        console.log(this.projects)
         if (defaultProject) {
-            this.projects.push(defaultProject);
+            this.projects[defaultProject.id] = defaultProject;
             return;
         }
         let title = prompt(`Input project's name`, '');
@@ -42,19 +40,19 @@ export class StateManager {
         const color = prompt(`Input project's color`, 'grey');
 
         const newProject = new Project({ title, color });
-        console.log(this.projects);
-        this.projects.push(newProject);
+        this.projects[newProject.id] = newProject;
         document.dispatchEvent(this.event);
     }
 
-    addTask = (e) => {
-        e.preventDefault();
-
-        const { title, description, dueDate, priority } = Object.fromEntries(new FormData(e.target));
-        const projectTitle = 'default';
+    addTask = (title, description, dueDate, priority) => {
+        const projectId = Object.keys(this.projects)[0];
         const newTask = new Task({ title, description, dueDate, priority });
-        this.projects.find(project => project.title === projectTitle).addTask(newTask);
+        this.projects[projectId].addTask(newTask);
         document.dispatchEvent(this.event);
-        console.log(this.projects);
+    }
+
+    removeTask = (taskId) => {
+        this.projects[Object.keys(this.projects)[0]].removeTask(taskId);
+        document.dispatchEvent(this.event);
     }
 }

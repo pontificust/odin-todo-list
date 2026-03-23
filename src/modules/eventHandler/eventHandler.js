@@ -2,20 +2,25 @@ export class EventHandler {
     constructor(
         addProject,
         addTask,
-        updateStorage, 
-        addXP, 
+        updateStorage,
+        addXP,
         render,
         closePopup,
-        openPopup
+        openPopup,
+        closeTask
     ) {
         this.click = {
             'closePopup': () => closePopup(),
             'openPopup': () => openPopup(),
+            'closeTask': (e) => closeTask(e),
         };
         this.submit = {
             'project': (e) => addProject(e),
             'task': (e) => {
-                addTask(e);
+                e.preventDefault();
+                const { title, description, dueDate, priority } = Object.fromEntries(new FormData(e.target));
+
+                addTask(title, description, dueDate, priority);
                 closePopup();
             },
         }

@@ -23,8 +23,6 @@ window.addEventListener('DOMContentLoaded', () => {
     } else {
         const data = storageManager.getDataset('projects');
         stateManager.loadProjects(data);
-        stateManager.hydrate();
-        console.log(stateManager.projects);
     }
 
     // 3. Show current stateManager.projects and tasks
@@ -49,6 +47,13 @@ window.addEventListener('DOMContentLoaded', () => {
         popupOverlay.classList.remove('close');
     }
 
+    const closeTask = (e) => {
+        const taskCard = e.target.closest('.tasks__card');
+        console.log(taskCard)
+        stateManager.removeTask(taskCard.dataset.id, 'default');
+        taskCard.remove();
+    }
+
     const eventHandler = new EventHandler(
         stateManager.addProject,
         stateManager.addTask,
@@ -56,11 +61,13 @@ window.addEventListener('DOMContentLoaded', () => {
         user.addXP,
         render,
         closePopup,
-        openPopup
+        openPopup,
+        closeTask
     );
 
     document.addEventListener('click', (e) => {
-        if (e.target.dataset.id) {
+        console.log(e.target)
+        if (e.target.dataset.id && e.target.tagName === 'BUTTON') {
             eventHandler.click[e.target.dataset.id](e);
         }
     });

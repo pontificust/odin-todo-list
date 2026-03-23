@@ -1,10 +1,11 @@
 export class Project {
     #isArchived = false;
 
-    constructor({title = 'default', color = 'gray', tasks = []}) {
+    constructor({title = 'default', color = 'gray', tasks = [], id}) {
         this.title = title;
         this.color = color;
         this.tasks = tasks;
+        this.id = id || crypto.randomUUID();
     }
 
     addTask(task) {

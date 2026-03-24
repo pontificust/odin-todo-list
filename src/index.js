@@ -1,5 +1,6 @@
 import {
-    render,
+    RenderManger,
+    taskStructure,
     StateManager,
     StorageManager,
     EventHandler,
@@ -14,6 +15,12 @@ window.addEventListener('DOMContentLoaded', () => {
     // 0. Initialization of data managers
     const storageManager = new StorageManager();
     const stateManager = new StateManager();
+    const renderManager = new RenderManger(
+        '.tasks__cards',
+        '.aside__menu-projects',
+        taskStructure,
+        {}
+    );
     const user = new User('Courier');
 
     // 1. Load data form the localStorage
@@ -26,65 +33,21 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     // 3. Show current stateManager.projects and tasks
-    render(stateManager.projects);
-
-    const closePopup = (e) => {
-        const popupOverlay = e.target.closest('.overlay');
-        const popupInputs = popupOverlay.querySelectorAll('.popup__input');
-
-        popupInputs.forEach(input => {
-            input.required = false;
-            input.value = '';
-        });
-        popupOverlay.classList.add('close');
-    }
-
-    const openPopup = (e) => {
-        let popupOverlay;
-        if (e.target.dataset.id === 'openPopup') {
-            popupOverlay = document.querySelector('#task');
-        } else {
-            popupOverlay = document.querySelector('#project');
-        }
-        const popupInputs = popupOverlay.querySelectorAll('.popup__input');
-
-        popupInputs.forEach(input => input.required = true);
-        popupOverlay.classList.remove('close');
-    }
-
-    const closeTask = (e) => {
-        const taskCard = e.target.closest('.tasks__card');
-        console.log(taskCard)
-        stateManager.removeTask(taskCard.dataset.id, 'default');
-        taskCard.remove();
-    }
-
-    const updateOutput = (e) => {
-        const output = e.target.nextElementSibling;
-        output.textContent = e.target.value;
-        return output;
-    }
-    
-    const showColorInput = (e) => {
-        const output = updateOutput(e);
-        const color = output.textContent;
-        output.style.borderColor = color;
-    }
+    renderManager.renderTasks(stateManager.projects);
 
     const eventHandler = new EventHandler(
         stateManager.addProject,
         stateManager.addTask,
         storageManager.updateStorage,
         user.addXP,
-        render,
-        closePopup,
-        openPopup,
-        closeTask,
-        showColorInput,
+        renderManager.renderTasks,
+        renderManager.closePopup,
+        renderManager.openPopup,
+        renderManager.closeTask,
+        renderManager.showColorInput,
     );
 
     document.addEventListener('click', (e) => {
-        // console.log(e.target)
         if (e.target.dataset.id && e.target.tagName === 'BUTTON') {
             eventHandler.click[e.target.dataset.id](e);
         }

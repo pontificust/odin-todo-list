@@ -644,12 +644,15 @@ header {
 }
 
 .aside__menu-btn-close {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    z-index: 10;
     width: 25px;
     height: 25px;
     background-color: #575151;
     background-image: url('../img/delete.svg');
     box-shadow: 0 5px 0 #57515180;
-    margin-left: auto;
     transition: all .4s;
 }
 

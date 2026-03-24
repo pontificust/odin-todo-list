@@ -133,7 +133,7 @@ export class RenderManger {
         if('default' === projectCard.dataset.id) {
             return;
         }
-        stateManager.removeProject(projectCard.dataset.id);
+        this.stateManager.removeProject(projectCard.dataset.id);
         projectCard.remove();
     }
 

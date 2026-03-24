@@ -1,10 +1,11 @@
 export class Project {
     #isArchived = false;
 
-    constructor({title = 'default', color = 'gray', tasks = [], id}) {
+    constructor({title = 'home', color = 'gray', tasks = [], id}) {
         this.title = title;
         this.color = color;
         this.tasks = tasks;
+        console.log(id)
         this.id = id || crypto.randomUUID();
     }
 

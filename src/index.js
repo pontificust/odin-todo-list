@@ -1,6 +1,7 @@
 import {
     RenderManger,
     taskStructure,
+    projectStructure,
     StateManager,
     StorageManager,
     EventHandler,
@@ -15,36 +16,38 @@ window.addEventListener('DOMContentLoaded', () => {
     // 0. Initialization of data managers
     const storageManager = new StorageManager();
     const stateManager = new StateManager();
-    const renderManager = new RenderManger(
-        '.tasks__cards',
-        '.aside__menu-projects',
-        taskStructure,
-        {}
-    );
     const user = new User('Courier');
-
+    
     // 1. Load data form the localStorage
     if (storageManager.isEmpty()) {
-        stateManager.addProject(new Project({}));
+        stateManager.addProject(new Project({ 
+            title: 'home',
+            color: 'grey',
+            tasks: [],
+            id: 'default', 
+        }));
         storageManager.updateStorage(stateManager.projects);
     } else {
         const data = storageManager.getDataset('projects');
         stateManager.loadProjects(data);
     }
 
+    const renderManager = new RenderManger(
+        '.tasks__cards',
+        '.aside__menu-projects',
+        taskStructure,
+        projectStructure,
+        stateManager,
+    );
+
     // 3. Show current stateManager.projects and tasks
-    renderManager.renderTasks(stateManager.projects);
+    renderManager.render(stateManager.projects);
 
     const eventHandler = new EventHandler(
-        stateManager.addProject,
-        stateManager.addTask,
-        storageManager.updateStorage,
-        user.addXP,
-        renderManager.renderTasks,
-        renderManager.closePopup,
-        renderManager.openPopup,
-        renderManager.closeTask,
-        renderManager.showColorInput,
+        stateManager,
+        renderManager,
+        user,
+        storageManager,
     );
 
     document.addEventListener('click', (e) => {

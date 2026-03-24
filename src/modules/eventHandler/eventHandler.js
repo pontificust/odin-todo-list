@@ -1,45 +1,42 @@
 export class EventHandler {
     constructor(
-        addProject,
-        addTask,
-        updateStorage,
-        addXP,
-        render,
-        closePopup,
-        openPopup,
-        closeTask,
-        showColorInput
+        stateManager,
+        renderManager,
+        user,
+        storageManager,
     ) {
         this.click = {
-            'closePopup': (e) => closePopup(e),
-            'openPopup': (e) => openPopup(e),
-            'closeTask': (e) => closeTask(e),
-            'openProjectPopup': (e) => openPopup(e),
+            'closePopup': (e) => renderManager.closePopup(e),
+            'openPopup': (e) => renderManager.openPopup(e),
+            'closeTask': (e) => renderManager.closeTask(e),
+            'closeProject': (e) => renderManager.closeProject(e),
+            'openProject': (e) => renderManager.openProject(e),
+            'openProjectPopup': (e) => renderManager.openPopup(e),
         };
         this.submit = {
             'project': (e) => {
                 e.preventDefault();
                 const projectData = Object.fromEntries(new FormData(e.target));
-                addProject(projectData);
-                closePopup(e);
+                stateManager.addProject(projectData);
+                renderManager.closePopup(e);
             },
             'task': (e) => {
                 e.preventDefault();
                 const taskData = Object.fromEntries(new FormData(e.target));
 
-                addTask(taskData);
-                closePopup(e);
+                stateManager.addTask(taskData, renderManager.currentProjectId);
+                renderManager.closePopup(e);
             },
         };
         this.input = {
-            'color': (e) => showColorInput(e),
+            'color': (e) => renderManager.showColorInput(e),
         };
         this.updateStorage = (projects) => {
-            updateStorage(projects);
-            render(projects);
+            storageManager.updateStorage(projects);
+            renderManager.render(projects);
         };
         this.taskFinished = (e) => {
-            addXP(e.xp);
+            user.addXP(e.xp);
         };
     }
 }

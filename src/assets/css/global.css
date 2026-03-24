@@ -837,7 +837,8 @@ header {
     margin-bottom: 30px;
 }
 
-.popup__input {
+.popup__input,
+.popup__output {
     background-color: transparent;
     border: 2px solid var(--primary-amber-color);
     border-radius: 10px;
@@ -929,6 +930,10 @@ option {
 
 .popup__btn:nth-of-type(2):hover{
     box-shadow: 0 0 10px #575151;
+}
+
+.popup__input#color {
+    display: none;
 }
 
 .close {

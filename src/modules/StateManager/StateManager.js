@@ -23,30 +23,22 @@ export class StateManager {
     }
 
     #isProjectExist(title) {
-        return this.projects.some(project => project.title === title);
+        return Object.values(this.projects).some(project => project.title === title);
     }
 
-    addProject = (defaultProject) => {
-        if (defaultProject) {
-            this.projects[defaultProject.id] = defaultProject;
+    addProject = ({title, color}) => {
+        if (this.#isProjectExist(title)) {
             return;
         }
-        let title = prompt(`Input project's name`, '');
-        if (this.#isProjectExist(title)) {
-            console.log(`Please chose another name for your project.
-                 Provided name exists`);
-            title = prompt(`Input project's name`, '');
-        }
-        const color = prompt(`Input project's color`, 'grey');
 
         const newProject = new Project({ title, color });
         this.projects[newProject.id] = newProject;
         document.dispatchEvent(this.event);
     }
 
-    addTask = (title, description, dueDate, priority) => {
+    addTask = (taskData) => {
         const projectId = Object.keys(this.projects)[0];
-        const newTask = new Task({ title, description, dueDate, priority });
+        const newTask = new Task(taskData);
         this.projects[projectId].addTask(newTask);
         document.dispatchEvent(this.event);
     }

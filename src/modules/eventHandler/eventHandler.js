@@ -7,23 +7,33 @@ export class EventHandler {
         render,
         closePopup,
         openPopup,
-        closeTask
+        closeTask,
+        showColorInput
     ) {
         this.click = {
-            'closePopup': () => closePopup(),
-            'openPopup': () => openPopup(),
+            'closePopup': (e) => closePopup(e),
+            'openPopup': (e) => openPopup(e),
             'closeTask': (e) => closeTask(e),
+            'openProjectPopup': (e) => openPopup(e),
         };
         this.submit = {
-            'project': (e) => addProject(e),
+            'project': (e) => {
+                e.preventDefault();
+                const projectData = Object.fromEntries(new FormData(e.target));
+                addProject(projectData);
+                closePopup(e);
+            },
             'task': (e) => {
                 e.preventDefault();
-                const { title, description, dueDate, priority } = Object.fromEntries(new FormData(e.target));
+                const taskData = Object.fromEntries(new FormData(e.target));
 
-                addTask(title, description, dueDate, priority);
-                closePopup();
+                addTask(taskData);
+                closePopup(e);
             },
-        }
+        };
+        this.input = {
+            'color': (e) => showColorInput(e),
+        };
         this.updateStorage = (projects) => {
             updateStorage(projects);
             render(projects);

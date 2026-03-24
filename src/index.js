@@ -1,4 +1,4 @@
-import { 
+import {
     render,
     StateManager,
     StorageManager,
@@ -6,9 +6,9 @@ import {
     Project,
     User,
     Task
- } from "./modules/modules.js";
+} from "./modules/modules.js";
 
- import "./assets/css/global.css";
+import "./assets/css/global.css";
 
 window.addEventListener('DOMContentLoaded', () => {
     // 0. Initialization of data managers
@@ -28,9 +28,9 @@ window.addEventListener('DOMContentLoaded', () => {
     // 3. Show current stateManager.projects and tasks
     render(stateManager.projects);
 
-    const closePopup = () => {
-        const popupOverlay = document.querySelector('.overlay');
-        const popupInputs = document.querySelectorAll('.popup__input');
+    const closePopup = (e) => {
+        const popupOverlay = e.target.closest('.overlay');
+        const popupInputs = popupOverlay.querySelectorAll('.popup__input');
 
         popupInputs.forEach(input => {
             input.required = false;
@@ -39,9 +39,14 @@ window.addEventListener('DOMContentLoaded', () => {
         popupOverlay.classList.add('close');
     }
 
-    const openPopup = () => {
-        const popupOverlay = document.querySelector('.overlay');
-        const popupInputs = document.querySelectorAll('.popup__input');
+    const openPopup = (e) => {
+        let popupOverlay;
+        if (e.target.dataset.id === 'openPopup') {
+            popupOverlay = document.querySelector('#task');
+        } else {
+            popupOverlay = document.querySelector('#project');
+        }
+        const popupInputs = popupOverlay.querySelectorAll('.popup__input');
 
         popupInputs.forEach(input => input.required = true);
         popupOverlay.classList.remove('close');
@@ -54,6 +59,18 @@ window.addEventListener('DOMContentLoaded', () => {
         taskCard.remove();
     }
 
+    const updateOutput = (e) => {
+        const output = e.target.nextElementSibling;
+        output.textContent = e.target.value;
+        return output;
+    }
+    
+    const showColorInput = (e) => {
+        const output = updateOutput(e);
+        const color = output.textContent;
+        output.style.borderColor = color;
+    }
+
     const eventHandler = new EventHandler(
         stateManager.addProject,
         stateManager.addTask,
@@ -62,11 +79,12 @@ window.addEventListener('DOMContentLoaded', () => {
         render,
         closePopup,
         openPopup,
-        closeTask
+        closeTask,
+        showColorInput,
     );
 
     document.addEventListener('click', (e) => {
-        console.log(e.target)
+        // console.log(e.target)
         if (e.target.dataset.id && e.target.tagName === 'BUTTON') {
             eventHandler.click[e.target.dataset.id](e);
         }
@@ -84,5 +102,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('taskFinished', (e) => {
         eventHandler.taskFinished(e.detail.xp);
+    });
+
+    document.addEventListener('input', (e) => {
+        if(e.target.id === "color") {
+            eventHandler.input[e.target.id](e);
+        }
     });
 });

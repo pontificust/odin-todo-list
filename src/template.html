@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
 </head>
+
 <body>
     <header class="header">
         <section class="header__logo">
@@ -42,7 +44,7 @@
                     </li>
                 </ul>
             </nav>
-            <button class="aside__button button" data-id="project">[Initialize new sector]</button>
+            <button class="aside__button button" data-id="openProjectPopup">[Initialize new sector]</button>
         </aside>
         <section class="tasks">
             <h2 class="tasks__title">Active Objectives</h2>
@@ -171,20 +173,20 @@
             <button class="tasks__btn button" data-id="openPopup">[initialize new objective]</button>
         </section>
     </main>
-    <div class="overlay close">
+    <div class="overlay close" id="task">
         <div class="popup__container">
             <form action="#" class="popup" data-id="task">
                 <h2 class="popup__title">>>system input: new objective</h2>
                 <div class="popup__field">
-                    <lable for="title" class="popup__label">Objective label</lable>
+                    <label for="title" class="popup__label">Objective label</label>
                     <input id="title" name="title" type="text" class="popup__input" required>
                 </div>
                 <div class="popup__field">
-                    <lable for="decription" class="popup__label">objective description</lable>
+                    <label for="description" class="popup__label">objective description</label>
                     <textarea id="description" name="description" class="popup__input"></textarea>
                 </div>
                 <div class="popup__field">
-                    <lable for="date" class="popup__label">timeline</lable>
+                    <label for="date" class="popup__label">timeline</label>
                     <div class="popup__date-wrapper">
                         <input id="date" name="dueDate" type="date" class="popup__input" required>
                     </div>
@@ -206,5 +208,26 @@
             </form>
         </div>
     </div>
+    <div class="overlay close" id="project">
+        <div class="popup__container">
+            <form action="#" class="popup" data-id="project">
+                <h2 class="popup__title">>>system input: new sector</h2>
+                <div class="popup__field">
+                    <label for="title" class="popup__label">sector label</label>
+                    <input id="title" name="title" type="text" class="popup__input" required>
+                </div>
+                <div class="popup__field">
+                    <label for="color" class="popup__label">objective description</label>
+                    <input type="color" id="color" name="color" class="popup__input" required>
+                    <output class="popup__output" name="color" for="color">Your color</output>
+                </div>
+                <div class="popup__btns">
+                    <button type="submit" class="popup__btn button">[execute]</button>
+                    <button type="button" class="popup__btn button" data-id="closePopup">[abort]</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
+
 </html>

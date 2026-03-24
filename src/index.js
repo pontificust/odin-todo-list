@@ -23,7 +23,8 @@ window.addEventListener('DOMContentLoaded', () => {
         stateManager.addProject(new Project({ 
             title: 'home',
             color: 'grey',
-            tasks: [],
+            activeTasks: [],
+            completedTasks: [],
             id: 'default', 
         }));
         storageManager.updateStorage(stateManager.projects);

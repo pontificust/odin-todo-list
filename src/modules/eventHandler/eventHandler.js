@@ -12,6 +12,9 @@ export class EventHandler {
             'closeProject': (e) => renderManager.closeProject(e),
             'openProject': (e) => renderManager.openProject(e),
             'openProjectPopup': (e) => renderManager.openPopup(e),
+            'openActive': (e) => renderManager.openTab(e),
+            'openCompleted': (e) => renderManager.openTab(e),
+            'completeTask': (e) => renderManager.moveTaskToCompleted(e),
         };
         this.submit = {
             'project': (e) => {

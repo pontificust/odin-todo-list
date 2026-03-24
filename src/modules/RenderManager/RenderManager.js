@@ -1,4 +1,3 @@
-import { Element } from "../Element/Element.js";
 import { createElement } from "../createElement.js/createElement.js";
 
 export class RenderManger {
@@ -38,10 +37,10 @@ export class RenderManger {
         return { projectCard, projectName, projectCardBtn };
     }
 
-    renderTasks = () => {
+    renderTasks = (tabName = "activeTasks") => {
         this.tasksContainer.innerHTML = '';
 
-        const tasks = this.stateManager.projects[this.currentProjectId].tasks;
+        const tasks = this.stateManager.projects[this.currentProjectId][`${tabName}`];
         for (let j = 0; j < tasks.length; j += 1) {
             const {
                 task,
@@ -67,14 +66,14 @@ export class RenderManger {
     rednerProjects = () => {
         this.projectsContainer.innerHTML = '';
 
-        for(let project of Object.entries(this.stateManager.projects)) {
-            const { 
+        for (let project of Object.entries(this.stateManager.projects)) {
+            const {
                 projectCard,
                 projectName,
                 projectCardBtn
             } = this.#parseProjectStructure();
 
-            if(project[0] === 'default') {
+            if (project[0] === 'default') {
                 projectCardBtn.remove();
             }
 
@@ -122,15 +121,21 @@ export class RenderManger {
         popupOverlay.classList.remove('close');
     }
 
-    closeTask = (e, stateManager) => {
+    closeTask = (e) => {
         const taskCard = e.target.closest('.tasks__card');
-        stateManager.removeTask(taskCard.dataset.id, 'home');
+        stateManager.removeTask(taskCard.dataset.id, this.currentProjectId);
         taskCard.remove();
     }
 
-    closeProject = (e, stateManager) => {
+    moveTaskToCompleted = (e) => {
+        const taskCard = e.target.closest('.tasks__card');
+        this.stateManager.completeTask(taskCard.dataset.id, this.currentProjectId);
+        taskCard.remove();
+    }
+
+    closeProject = (e) => {
         const projectCard = e.target.closest('.aside__menu-project');
-        if('default' === projectCard.dataset.id) {
+        if ('default' === projectCard.dataset.id) {
             return;
         }
         this.stateManager.removeProject(projectCard.dataset.id);
@@ -153,6 +158,15 @@ export class RenderManger {
         this.currentProjectId = e.target.closest('li').dataset.id;
 
         this.renderTasks();
+    }
+
+    openTab = (e) => {
+        const tabs = document.querySelectorAll('.tasks__tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        e.target.classList.add('active');
+        const tabName = e.target.dataset.id === 'openActive' ? 'activeTasks' :
+        'completedTasks';
+        this.renderTasks(tabName);
     }
 
 }

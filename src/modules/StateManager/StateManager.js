@@ -15,24 +15,31 @@ export class StateManager {
     }
 
     #hydrate() {
-
-        this.projects = Object.fromEntries(Object.entries(this.projects).map(project => {
+        console.log(this.projects)
+        this.projects = Object.fromEntries(
+            Object.entries(this.projects).map(project => {
             const hydratedProject = new Project(project[1]);
-            hydratedProject.tasks = hydratedProject.tasks.map(task => new Task(task));
+            console.log(project[1].activeTasks)
+            hydratedProject.activeTasks = project[1].activeTasks.map(task => 
+                new Task(task));
+            hydratedProject.completedTasks = project[1].completedTasks.map(task => new Task(task));
             return [hydratedProject.id, hydratedProject];
         }));
     }
 
     #isProjectExist(title) {
-        return Object.values(this.projects).some(project => project.title === title);
+        return Object.values(this.projects).some(project => 
+            project.title === title);
     }
 
-    addProject = ({title, color, tasks, id}) => {
+    addProject = ({title, color, activeTasks, completedTasks, id}) => {
         if (this.#isProjectExist(title)) {
             return;
         }
 
-        const newProject = new Project({ title, color, tasks, id });
+        const newProject = new Project({ 
+            title, color, activeTasks, completedTasks, id 
+        });
         this.projects[newProject.id] = newProject;
         document.dispatchEvent(this.event);
     }
@@ -43,8 +50,14 @@ export class StateManager {
         document.dispatchEvent(this.event);
     }
 
-    removeTask = (taskId) => {
-        this.projects[Object.keys(this.projects)[0]].removeTask(taskId);
+    removeTask = (taskId, currentProjectId) => {
+        this.projects[currentProjectId].removeTask(taskId);
+        document.dispatchEvent(this.event);
+    }
+
+    completeTask(taskId, currentProjectId) {
+        this.projects[currentProjectId].completeTask(taskId);
+        this.projects[currentProjectId].removeTask(taskId);
         document.dispatchEvent(this.event);
     }
 

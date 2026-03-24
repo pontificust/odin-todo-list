@@ -704,6 +704,34 @@ header {
     margin-bottom: 50px;
 }
 
+.tasks__tabs {
+    display: flex;
+    gap: 30px;
+}
+
+.tasks__tab {
+    flex: 1;
+    background-color: transparent;
+    color: #2D3748;
+    border: none;
+    outline: 5px solid #2D3748;
+    border-radius: 20px;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    padding: 20px;
+    transition: all .4s;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono bold', sans-serif;
+}
+
+.tasks__tab:hover,
+.tasks__tab:focus,
+.tasks__tab.active {
+    color: var(--primary-amber-color);
+    outline-color: var(--primary-amber-color);
+    text-shadow: 0 0 5px var(--primary-amber-color);
+    box-shadow: 0 0 10px var(--primary-amber-color);
+}
+
 .tasks__cards {
     display: flex;
     flex-direction: column;

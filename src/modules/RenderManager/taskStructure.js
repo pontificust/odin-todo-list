@@ -12,7 +12,7 @@ export const taskStructure = new Element('li', [
             ], { className: 'tasks__card-row' }),
         ], { className: 'tasks__card-wrapper' }),
         new Element('div', [
-            new Element('button', '', { className: 'tasks__card-btn button', 'data-id': "complete" }),
+            new Element('button', '', { className: 'tasks__card-btn button', 'data-id': "completeTask" }),
             new Element('button', '', { className: 'tasks__card-btn button', 'data-id': "closeTask" }),
         ], { className: 'tasks__card-btns' }),
     ], { className: 'tasks__card' });

@@ -73,12 +73,10 @@ export class StateManager {
         this.#notify({ tabName });
     }
 
-    completeTask(taskId, currentProjectId) {
+    completeTask(taskId, currentProjectId, currentPlayerId) {
         const task = this.projects[currentProjectId].completeTask(taskId);
-        this.projects[currentProjectId].removeTask(taskId);
 
-        console.log(Object.values(this.users)[0])
-        Object.values(this.users)[0].addXP(task.getXP());
+        this.users[currentPlayerId].addXP(task.getXP());
         this.#notify();
     }
 

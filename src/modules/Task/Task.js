@@ -1,5 +1,4 @@
 export class Task {
-    #isDone = false;
     #xp;
 
     constructor({ title, description, dueDate, priority }) {
@@ -12,23 +11,7 @@ export class Task {
         this.id = crypto.randomUUID();
     }
 
-    finishTask() {
-        this.#isDone = true;
-        const xp = this.priority * 100;
-        let taskFinishedEvent = new CustomEvent('taskFinished', {
-            detail: {
-                xp: this.#xp,
-            }
-        });
-        console.log(taskFinishedEvent)
-        document.dispatchEvent(taskFinishedEvent);
-    }
-
     getXP() {
         return this.#xp;
-    }
-
-    restartTask() {
-        this.#isDone = false;
     }
 }

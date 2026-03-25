@@ -2,7 +2,6 @@ export class EventHandler {
     constructor(
         stateManager,
         renderManager,
-        user,
         storageManager,
     ) {
         this.click = {
@@ -14,21 +13,16 @@ export class EventHandler {
             'openProjectPopup': (e) => renderManager.openPopup(e),
             'openActive': (e) => renderManager.openTab(e),
             'openCompleted': (e) => renderManager.openTab(e),
-            'completeTask': (e) => {
-                renderManager.moveTaskToCompleted(e);
-                renderManager.renderLevel();
-            },
+            'completeTask': (e) => renderManager.moveTaskToCompleted(e),
         };
         this.submit = {
             'project': (e) => {
-                e.preventDefault();
-                const projectData = Object.fromEntries(new FormData(e.target));
+                const projectData = this.getFormData(e);
                 stateManager.addProject(projectData);
                 renderManager.closePopup(e);
             },
             'task': (e) => {
-                e.preventDefault();
-                const taskData = Object.fromEntries(new FormData(e.target));
+                const taskData = this.getFormData(e);
 
                 stateManager.addTask(taskData, renderManager.currentProjectId);
                 renderManager.closePopup(e);
@@ -40,15 +34,16 @@ export class EventHandler {
         this.updateStorage = (e, projects, users) => {
             storageManager.updateStorage(projects, users);
             if (e.detail) {
-                console.log(e.detail.tabName)
                 renderManager.renderTasks(e.detail.tabName);
                 return;
             }
-            renderManager.renderTasks();
+            renderManager.render();
         };
-        this.taskFinished = (xp) => {
-            // user.addXP(xp);
-            // renderManager.updateLevel(user.totalXP, user.level, user.rank);
-        };
+    }
+
+    getFormData(e) {
+        e.preventDefault();
+        const projectData = Object.fromEntries(new FormData(e.target));
+        return projectData;
     }
 }

@@ -104,7 +104,6 @@ export class RenderManger {
         spanLevel.textContent = level;
         spanRank.textContent = rank;
         spanXp.textContent = totalXP;
-        console.log(totalXP)
     }
 
     render = () => {
@@ -152,14 +151,18 @@ export class RenderManger {
             tabName = 'completedTasks';
         }
         this.stateManager.removeTask(taskCard.dataset.id, this.currentProjectId, tabName);
-        console.log(taskCard)
         taskCard.remove();
     }
 
     moveTaskToCompleted = (e) => {
         const taskCard = e.target.closest('.tasks__card');
-        this.stateManager.completeTask(taskCard.dataset.id, this.currentProjectId);
+        this.stateManager.completeTask(
+            taskCard.dataset.id,
+            this.currentProjectId,
+            this.currentPlayerId
+        );
         taskCard.remove();
+        this.renderLevel();
     }
 
     closeProject = (e) => {

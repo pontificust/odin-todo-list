@@ -187,16 +187,22 @@ export class RenderManger {
     openProject = (e) => {
         this.currentProjectId = e.target.closest('li').dataset.id;
 
-        this.renderTasks();
+        this.openTab();
     }
 
     openTab = (e) => {
         const tabs = document.querySelectorAll('.tasks__tab');
         const addButton = document.querySelector('.tasks__btn');
         tabs.forEach(tab => tab.classList.remove('active'));
-        e.target.classList.add('active');
-        const tabName = e.target.dataset.id === 'openActive' ? 'activeTasks' :
-            'completedTasks';
+        let tabName = 'activeTasks';
+        if(e) {
+            e.target.classList.add('active');
+            tabName = e.target.dataset.id === 'openActive' ? 'activeTasks' :
+                'completedTasks';
+        } else {
+            document.querySelector('[data-id="openActive"]').classList.add('active');
+        }
+
         if (tabName === 'completedTasks') {
 
             addButton.classList.add('hide');

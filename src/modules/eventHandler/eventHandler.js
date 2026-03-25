@@ -40,7 +40,9 @@ export class EventHandler {
         this.updateStorage = (e, projects, users) => {
             storageManager.updateStorage(projects, users);
             if (e.detail) {
+                console.log(e.detail.tabName)
                 renderManager.renderTasks(e.detail.tabName);
+                return;
             }
             renderManager.renderTasks();
         };

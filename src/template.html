@@ -47,7 +47,8 @@
             <button class="aside__button button" data-id="openProjectPopup">[Initialize new sector]</button>
         </aside>
         <section class="tasks">
-            <h2 class="tasks__title">Active Objectives</h2>
+            <h2 class="tasks__title">Objectives</h2>
+            <h2 class="tasks__sector-title">Objectives</h2>
             <div class="tasks__tabs">
                 <button class="tasks__tab active" data-id="openActive">Active</button>
                 <button class="tasks__tab" data-id="openCompleted">Completed</button>
@@ -64,7 +65,7 @@
                 <h2 class="popup__title">>>system input: new objective</h2>
                 <div class="popup__field">
                     <label for="title" class="popup__label">Objective label</label>
-                    <input id="title" name="title" type="text" class="popup__input" required>
+                    <input id="title" name="title" type="text" maxlength="50" class="popup__input" required>
                 </div>
                 <div class="popup__field">
                     <label for="description" class="popup__label">objective description</label>
@@ -99,7 +100,7 @@
                 <h2 class="popup__title">>>system input: new sector</h2>
                 <div class="popup__field">
                     <label for="title" class="popup__label">sector label</label>
-                    <input id="title" name="title" type="text" class="popup__input" required>
+                    <input id="title" name="title" type="text" maxlength="120" class="popup__input" required>
                 </div>
                 <div class="popup__field">
                     <label for="color" class="popup__label">objective description</label>

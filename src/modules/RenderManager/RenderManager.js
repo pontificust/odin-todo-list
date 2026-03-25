@@ -40,8 +40,11 @@ export class RenderManger {
 
     renderTasks = (tabName = "activeTasks") => {
         this.tasksContainer.innerHTML = '';
+        const projectTitle = document.querySelector('.tasks__sector-title');
+        const project = this.stateManager.projects[this.currentProjectId];
+        projectTitle.textContent = project.title;
 
-        const tasks = this.stateManager.projects[this.currentProjectId][`${tabName}`];
+        const tasks = project[`${tabName}`];
         for (let j = 0; j < tasks.length; j += 1) {
             const {
                 task,

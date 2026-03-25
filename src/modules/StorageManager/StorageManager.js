@@ -7,12 +7,14 @@ export class StorageManager {
         return this.localStorage.length === 0;
     }
 
-    updateStorage = (projects) => {
-        localStorage.setItem('projects', JSON.stringify(projects));
+    updateStorage = (projects, users) => {
+        this.localStorage.setItem('projects', JSON.stringify(projects));
+        this.localStorage.setItem('users', JSON.stringify(users));
     }
 
-    getDataset(datasetTitle) {
-        const dataset = JSON.parse(this.localStorage.getItem(datasetTitle));
+    getDataset(...datasetTitles) {
+        const dataset = datasetTitles.map( title => 
+            JSON.parse(this.localStorage.getItem(title)));
         return dataset;
     }
 }

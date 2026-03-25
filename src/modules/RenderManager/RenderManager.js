@@ -16,6 +16,7 @@ export class RenderManger {
         this.taskStructure = taskStructure;
         this.projectStructure = projectStructure;
         this.stateManager = stateManager;
+        this.currentPlayerId = Object.keys(stateManager.users)[0];
     }
 
     #parseTaskStructure() {
@@ -56,9 +57,13 @@ export class RenderManger {
             taskPriority.textContent = `[${priority}]`;
             taskPriority.classList.add(`${priority}`);
             taskDate.textContent = `due ${tasks[j].dueDate}`;
-            taskXp.textContent = `+ ${tasks[j].getXp()} xp`;
+            taskXp.textContent = `+ ${tasks[j].getXP()} xp`;
             tasksWrapper.classList.add(`${priority}`);
             task.dataset.id = id;
+            if (tabName === 'completedTasks') {
+                task.classList.add('complete');
+                task.querySelector('button[data-id="completeTask"]').remove();
+            }
             this.tasksContainer.appendChild(task);
         }
     }
@@ -84,9 +89,28 @@ export class RenderManger {
         }
     }
 
+    renderLevel = () => {
+        const levelBar = document.querySelector('.header__user-bar');
+        const spanLevel = document.querySelector('[data-id="level"]');
+        const spanRank = document.querySelector('[data-id="rank"]');
+        const spanXp = document.querySelector('[data-id="xp"]');
+        const { totalXP, rank, level } = this.stateManager.users[this.currentPlayerId];
+        let newWidth = (totalXP / 1000) * 100 - (+level - 1) * 100;
+        if( newWidth >= 100 ) {
+            newWidth = newWidth - 100;
+        }
+
+        levelBar.style.width = `${newWidth}%`;
+        spanLevel.textContent = level;
+        spanRank.textContent = rank;
+        spanXp.textContent = totalXP;
+        console.log(totalXP)
+    }
+
     render = () => {
         this.rednerProjects();
         this.renderTasks();
+        this.renderLevel();
     }
 
     #cleanColorOutput = () => {
@@ -123,7 +147,12 @@ export class RenderManger {
 
     closeTask = (e) => {
         const taskCard = e.target.closest('.tasks__card');
-        stateManager.removeTask(taskCard.dataset.id, this.currentProjectId);
+        let tabName = 'activeTasks';
+        if(taskCard.classList.contains('complete')){
+            tabName = 'completedTasks';
+        }
+        this.stateManager.removeTask(taskCard.dataset.id, this.currentProjectId, tabName);
+        console.log(taskCard)
         taskCard.remove();
     }
 
@@ -138,6 +167,7 @@ export class RenderManger {
         if ('default' === projectCard.dataset.id) {
             return;
         }
+        this.currentProjectId = 'default';
         this.stateManager.removeProject(projectCard.dataset.id);
         projectCard.remove();
     }
@@ -162,11 +192,17 @@ export class RenderManger {
 
     openTab = (e) => {
         const tabs = document.querySelectorAll('.tasks__tab');
+        const addButton = document.querySelector('.tasks__btn');
         tabs.forEach(tab => tab.classList.remove('active'));
         e.target.classList.add('active');
         const tabName = e.target.dataset.id === 'openActive' ? 'activeTasks' :
-        'completedTasks';
+            'completedTasks';
+        if (tabName === 'completedTasks') {
+
+            addButton.classList.add('hide');
+        } else {
+            addButton.classList.remove('hide');
+        }
         this.renderTasks(tabName);
     }
-
 }

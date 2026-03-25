@@ -20,6 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
     
     // 1. Load data form the localStorage
     if (storageManager.isEmpty()) {
+        stateManager.addUser(user);
         stateManager.addProject(new Project({ 
             title: 'home',
             color: 'grey',
@@ -27,9 +28,9 @@ window.addEventListener('DOMContentLoaded', () => {
             completedTasks: [],
             id: 'default', 
         }));
-        storageManager.updateStorage(stateManager.projects);
+        storageManager.updateStorage(stateManager.projects, stateManager.users);
     } else {
-        const data = storageManager.getDataset('projects');
+        const data = storageManager.getDataset('projects', 'users');
         stateManager.loadProjects(data);
     }
 
@@ -42,7 +43,7 @@ window.addEventListener('DOMContentLoaded', () => {
     );
 
     // 3. Show current stateManager.projects and tasks
-    renderManager.render(stateManager.projects);
+    renderManager.render();
 
     const eventHandler = new EventHandler(
         stateManager,
@@ -63,11 +64,13 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.addEventListener('updateStorage', () => {
-        eventHandler.updateStorage(stateManager.projects);
+    document.addEventListener('updateStorage', (e) => {
+        console.log(e.detail)
+        eventHandler.updateStorage(e, stateManager.projects, stateManager.users);
     });
 
     document.addEventListener('taskFinished', (e) => {
+        console.log(e.detail.xp)
         eventHandler.taskFinished(e.detail.xp);
     });
 

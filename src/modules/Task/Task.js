@@ -24,8 +24,7 @@ export class Task {
         document.dispatchEvent(taskFinishedEvent);
     }
 
-    getXp() {
-        console.log(this.#xp)
+    getXP() {
         return this.#xp;
     }
 

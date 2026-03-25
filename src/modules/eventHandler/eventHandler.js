@@ -14,7 +14,10 @@ export class EventHandler {
             'openProjectPopup': (e) => renderManager.openPopup(e),
             'openActive': (e) => renderManager.openTab(e),
             'openCompleted': (e) => renderManager.openTab(e),
-            'completeTask': (e) => renderManager.moveTaskToCompleted(e),
+            'completeTask': (e) => {
+                renderManager.moveTaskToCompleted(e);
+                renderManager.renderLevel();
+            },
         };
         this.submit = {
             'project': (e) => {
@@ -34,12 +37,16 @@ export class EventHandler {
         this.input = {
             'color': (e) => renderManager.showColorInput(e),
         };
-        this.updateStorage = (projects) => {
-            storageManager.updateStorage(projects);
-            renderManager.render(projects);
+        this.updateStorage = (e, projects, users) => {
+            storageManager.updateStorage(projects, users);
+            if (e.detail) {
+                renderManager.renderTasks(e.detail.tabName);
+            }
+            renderManager.renderTasks();
         };
-        this.taskFinished = (e) => {
-            user.addXP(e.xp);
+        this.taskFinished = (xp) => {
+            // user.addXP(xp);
+            // renderManager.updateLevel(user.totalXP, user.level, user.rank);
         };
     }
 }

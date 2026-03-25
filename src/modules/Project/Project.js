@@ -21,8 +21,10 @@ export class Project {
     completeTask(taskId) {
         const indexToMove = this.activeTasks.findIndex(task => task.id === taskId);
         const taskToMove = this.activeTasks[indexToMove];
+        taskToMove.finishTask();
 
         this.completedTasks.push(taskToMove);
+        return taskToMove;
     }
 
     finishProject() {

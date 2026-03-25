@@ -589,6 +589,7 @@ header {
     width: 0%;
     height: 100%;
     border-radius: 20px 0px 0px 20px;
+    transition: all .4s;
 }
 
 /* header styles end */
@@ -641,6 +642,11 @@ header {
     gap: 10px;
     padding: 10px;
     position: relative;
+    transition: all .4s;
+}
+
+.aside__menu-project.active {
+    box-shadow: 0 0 20px var(--primary-amber-color);
 }
 
 .aside__menu-name {
@@ -684,6 +690,9 @@ header {
     text-shadow: 0 0 5px var(--primary-amber-color);
     box-shadow: 0 0 10px var(--primary-amber-color),
     0 10px 0 #ffb88050;
+    align-self: center;
+    padding: 10px;
+    border-radius: 20px;
 }
 
 .aside__button:hover {
@@ -834,6 +843,7 @@ header {
     0 10px 0 #ffb88050;
     padding: 10px 20px;
     border-radius: 20px;
+    align-self: center;
 }
 
 .tasks__btn:hover {

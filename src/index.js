@@ -53,24 +53,25 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('click', (e) => {
         if (e.target.dataset.id && e.target.tagName === 'BUTTON') {
-            eventHandler.click[e.target.dataset.id](e);
+            renderManager.safeTransition(() => eventHandler.click[e.target.dataset.id](e));
         }
     });
 
     document.addEventListener('submit', (e) => {
+        e.preventDefault();
         if (e.target.dataset.id) {
-            eventHandler.submit[e.target.dataset.id](e);
+            renderManager.safeTransition(() => eventHandler.submit[e.target.dataset.id](e));
         }
     });
 
     document.addEventListener('updateStorage', (e) => {
         console.log(e.detail)
-        eventHandler.updateStorage(e, stateManager.projects, stateManager.users);
+        renderManager.safeTransition(() => eventHandler.updateStorage(e, stateManager.projects, stateManager.users));
     });
 
     document.addEventListener('input', (e) => {
         if (e.target.id === "color") {
-            eventHandler.input[e.target.id](e);
+            renderManager.safeTransition(() => eventHandler.input[e.target.id](e));
         }
     });
 });

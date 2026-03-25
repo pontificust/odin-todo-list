@@ -38,6 +38,18 @@ export class RenderManger {
         return { projectCard, projectName, projectCardBtn };
     }
 
+    safeTransition(callback) {
+    if(!document.startViewTransition) {
+        callback();
+        return;
+    }
+
+    document.startViewTransition(() => {
+        callback();
+    });
+}
+
+
     renderTasks = (tabName = "activeTasks") => {
         this.tasksContainer.innerHTML = '';
         const projectTitle = document.querySelector('.tasks__sector-title');
@@ -83,6 +95,7 @@ export class RenderManger {
 
             if (project[0] === 'default') {
                 projectCardBtn.remove();
+                projectCard.classList.add('active');
             }
 
             projectCard.dataset.id = project[0];
@@ -191,7 +204,12 @@ export class RenderManger {
     }
 
     openProject = (e) => {
+        const prevProjectCard = document.querySelector(`[data-id="${this.currentProjectId}"]`);
+        prevProjectCard.classList.remove('active');
+
         this.currentProjectId = e.target.closest('li').dataset.id;
+        const projectCard = document.querySelector(`[data-id="${this.currentProjectId}"]`);
+        projectCard.classList.add('active');
 
         this.openTab();
     }

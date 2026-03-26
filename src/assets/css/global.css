@@ -490,6 +490,9 @@ html {
     font-size: 62.5%;
     scroll-behavior: smooth;
     box-sizing: border-box;
+    scrollbar-gutter: stable both-edges;
+    scrollbar-color: var(--primary-amber-color) transparent; 
+    scrollbar-width: thin;
 }
 
 *,

@@ -115,8 +115,8 @@ export class RenderManger {
                 projectCardBtnIcon
             } = this.#parseProjectStructure();
 
-            if (project[0] === 'default') {
-                projectCardBtn.remove();
+            if (project[0] === this.currentProjectId) {
+                projectCardBtn.classList.add('hide');
                 projectCard.classList.add('active');
             }
 
@@ -196,7 +196,10 @@ export class RenderManger {
             tabName = 'completedTasks';
         }
         this.stateManager.removeTask(taskCard.dataset.id, this.currentProjectId, tabName);
-        taskCard.remove();
+        taskCard.classList.add('hide');
+        setTimeout(() => {
+            taskCard.remove();
+        }, 400);
     }
 
     moveTaskToCompleted = (e) => {
@@ -217,7 +220,10 @@ export class RenderManger {
         }
         this.currentProjectId = 'default';
         this.stateManager.removeProject(projectCard.dataset.id);
-        projectCard.remove();
+        projectCard.classList.add('hide');
+        setTimeout(() => {
+            projectCard.remove();
+        }, 400);
     }
 
     #updateOutput(e) {

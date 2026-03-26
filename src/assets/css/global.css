@@ -1026,6 +1026,21 @@ option {
     display: none;
 }
 
+.popup__label[for="color"] {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.popup__label[for="color"]::after {
+    content: '';
+    width: clamp(2rem, 3vw, 4rem);
+    aspect-ratio: 1 / 1;
+    background-color: gray;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
 .close {
     display: none;
 }

@@ -510,6 +510,7 @@ html {
     --secondary-text-color: #A0AEC0;
     --aside-text-color: #FFEDC2;
     --border: 5px solid #2D3748;
+    --user-input-color: var(--primary-amber-color);
 }
 
 body {
@@ -651,6 +652,10 @@ header {
 .aside__menu-project.active {
     box-shadow: 0 0 20px var(--primary-amber-color);
 }
+.aside__menu-icon {
+    width: 35px;
+    height: 35px;
+}
 
 .aside__menu-name {
     width: 150px;
@@ -662,14 +667,24 @@ header {
 .aside__menu-btn-close {
     position: relative;
     z-index: 10;
-    width: 25px;
-    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
     align-self: center;
     margin-left: auto;
-    background-color: #575151;
-    background-image: url('../img/delete.svg');
-    box-shadow: 0 5px 0 #57515180;
+    background-color: transparent;
+    opacity: 0;
+    border: none;
+    cursor: pointer;
     transition: all .4s;
+}
+
+.aside__menu-btn-close svg {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
 
 .aside__menu-btn-open {
@@ -682,8 +697,12 @@ header {
     right: 0;
 }
 
+.aside__menu-project:hover .aside__menu-btn-close{
+    opacity: 0.7;
+}
+
 .aside__menu-btn-close:hover {
-    box-shadow: none;
+    transform: scale(1.2);
 }
 
 .aside__button {
@@ -938,6 +957,10 @@ header {
     width: 100%;
 }
 
+.popup__output {
+    border-color: var(--user-input-color);
+}
+
 .popup__input:focus {
     outline: none;
     box-shadow: 0 0 20px var(--primary-amber-color);
@@ -1036,7 +1059,7 @@ option {
     content: '';
     width: clamp(2rem, 3vw, 4rem);
     aspect-ratio: 1 / 1;
-    background-color: gray;
+    background-color: var(--user-input-color);
     border-radius: 50%;
     cursor: pointer;
 }

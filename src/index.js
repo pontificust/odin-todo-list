@@ -16,14 +16,19 @@ window.addEventListener('DOMContentLoaded', () => {
     // 0. Initialization of data managers
     const storageManager = new StorageManager();
     const stateManager = new StateManager();
-    const user = new User('Courier');
+    const user = new User({
+        name: 'Courier',
+        totalXP: 0,
+        level: 1, 
+        rank: 'novice'
+    });
 
     // 1. Load data form the localStorage
     if (storageManager.isEmpty()) {
         stateManager.addUser(user);
         stateManager.addProject(new Project({
             title: 'home',
-            color: 'grey',
+            color: '#696969',
             activeTasks: [],
             completedTasks: [],
             id: 'default',

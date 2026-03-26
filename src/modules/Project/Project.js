@@ -1,7 +1,7 @@
 export class Project {
     #isArchived = false;
 
-    constructor({ title = 'home', color = 'gray', tasks = [], completedTasks = [], id }) {
+    constructor({ title = 'home', color = '#696969', tasks = [], completedTasks = [], id }) {
         this.title = title;
         this.color = color;
         this.activeTasks = tasks;

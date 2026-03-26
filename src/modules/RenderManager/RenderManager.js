@@ -32,22 +32,42 @@ export class RenderManger {
 
     #parseProjectStructure() {
         const projectCard = createElement(this.projectStructure);
+        const projectIcon = projectCard.querySelector('.aside__menu-icon');
         const projectName = projectCard.querySelector('.aside__menu-name');
         const projectCardBtn = projectCard.querySelector('button');
+        const projectCardBtnIcon = projectCardBtn.querySelector('svg');
 
-        return { projectCard, projectName, projectCardBtn };
+        return {
+            projectCard,
+            projectIcon,
+            projectName,
+            projectCardBtn,
+            projectCardBtnIcon,
+        };
+    }
+
+    #getContrastColor(hexColor) {
+        const hex = hexColor.replace('#', '');
+
+        const r = parseInt(hex.substr(0, 2), 16);
+        const g = parseInt(hex.substr(2, 2), 16);
+        const b = parseInt(hex.substr(4, 2), 16);
+
+        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+
+        return (yiq >= 128) ? '#000000' : '#ffffff';
     }
 
     safeTransition(callback) {
-    if(!document.startViewTransition) {
-        callback();
-        return;
-    }
+        if (!document.startViewTransition) {
+            callback();
+            return;
+        }
 
-    document.startViewTransition(() => {
-        callback();
-    });
-}
+        document.startViewTransition(() => {
+            callback();
+        });
+    }
 
 
     renderTasks = (tabName = "activeTasks") => {
@@ -89,8 +109,10 @@ export class RenderManger {
         for (let project of Object.entries(this.stateManager.projects)) {
             const {
                 projectCard,
+                projectIcon,
                 projectName,
-                projectCardBtn
+                projectCardBtn,
+                projectCardBtnIcon
             } = this.#parseProjectStructure();
 
             if (project[0] === 'default') {
@@ -98,9 +120,15 @@ export class RenderManger {
                 projectCard.classList.add('active');
             }
 
+            const contrastColor = this.#getContrastColor(project[1].color);
+
+            projectCardBtnIcon.style.fill = contrastColor;
             projectCard.dataset.id = project[0];
-            projectCard.style.backgroundColor = project[1].color;
+            projectCard.style.background = `
+            linear-gradient(${project[1].color}, ${project[1].color}80)`;
+            projectCard.style.color = contrastColor;
             projectName.textContent = project[1].title;
+            projectIcon.style.fill = contrastColor;
             this.projectsContainer.appendChild(projectCard);
         }
     }
@@ -112,7 +140,7 @@ export class RenderManger {
         const spanXp = document.querySelector('[data-id="xp"]');
         const { totalXP, rank, level } = this.stateManager.users[this.currentPlayerId];
         let newWidth = (totalXP / 1000) * 100 - (+level - 1) * 100;
-        if( newWidth >= 100 ) {
+        if (newWidth >= 100) {
             newWidth = newWidth - 100;
         }
 
@@ -130,9 +158,10 @@ export class RenderManger {
 
     #cleanColorOutput = () => {
         const popupOutput = document.querySelector('.popup__output');
+        const styles = getComputedStyle(document.documentElement);
+        const initialColor = styles.getPropertyValue('--primary-amber-color');
+        document.documentElement.style.setProperty('--user-input-color', initialColor);
         popupOutput.textContent = 'Your color';
-        popupOutput.style.borderColor = '';
-
     }
 
     closePopup = (e) => {
@@ -163,7 +192,7 @@ export class RenderManger {
     closeTask = (e) => {
         const taskCard = e.target.closest('.tasks__card');
         let tabName = 'activeTasks';
-        if(taskCard.classList.contains('complete')){
+        if (taskCard.classList.contains('complete')) {
             tabName = 'completedTasks';
         }
         this.stateManager.removeTask(taskCard.dataset.id, this.currentProjectId, tabName);
@@ -200,7 +229,7 @@ export class RenderManger {
     showColorInput = (e) => {
         const output = this.#updateOutput(e);
         const color = output.textContent;
-        output.style.borderColor = color;
+        document.documentElement.style.setProperty('--user-input-color', color);
     }
 
     openProject = (e) => {
@@ -219,7 +248,7 @@ export class RenderManger {
         const addButton = document.querySelector('.tasks__btn');
         tabs.forEach(tab => tab.classList.remove('active'));
         let tabName = 'activeTasks';
-        if(e) {
+        if (e) {
             e.target.classList.add('active');
             tabName = e.target.dataset.id === 'openActive' ? 'activeTasks' :
                 'completedTasks';

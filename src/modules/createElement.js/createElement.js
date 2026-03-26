@@ -1,5 +1,12 @@
 export const createElement = ({ tag, content, attributes }) => {
-    const element = document.createElement(tag);
+    const svgNS = "http://www.w3.org/2000/svg";
+    const isSvg = ['svg', 'path', 'circle', 'rect', 'line'].includes(tag);
+    
+    const element = isSvg ? document.createElementNS(svgNS, tag) :
+    document.createElement(tag);
+    if(attributes && attributes.className){
+        element.classList.add(...attributes.className.split(' '));
+    }
     if (content) {
         if (typeof content === 'string') {
             element.textContent = content;
@@ -9,8 +16,7 @@ export const createElement = ({ tag, content, attributes }) => {
             }
         }
     }
-    if (attributes && attributes.className) {
-        element.classList.add(...attributes.className.split(' '));
+    if (attributes) {
         for (let key in attributes) {
             if (key !== 'className') {
                 element.setAttribute(key, attributes[key]);

@@ -1,6 +1,6 @@
-import { Task } from "../Task/Task.js";
-import { Project } from "../Project/Project.js";
-import { User } from "../User/User.js";
+import { Task } from "../models/Task.js";
+import { Project } from "../models/Project.js";
+import { User } from "../models/User.js";
 
 export class StateManager {
     projects = {}
@@ -12,7 +12,6 @@ export class StateManager {
     
     #notify( detail = null) {
        const event = new CustomEvent('updateStorage', { detail });
-       console.log(detail)
         document.dispatchEvent(event);
     }
 
@@ -23,7 +22,6 @@ export class StateManager {
     }
 
     #hydrate() {
-        console.log(this.projects)
         this.projects = Object.fromEntries(
             Object.entries(this.projects).map(project => {
             const hydratedProject = new Project(project[1]);
@@ -58,6 +56,7 @@ export class StateManager {
         const newProject = new Project({ 
             title, color, activeTasks, completedTasks, id 
         });
+        console.log(completedTasks)
         this.projects[newProject.id] = newProject;
         this.#notify();
     }
@@ -70,7 +69,7 @@ export class StateManager {
 
     removeTask = (taskId, currentProjectId, tabName) => {
         this.projects[currentProjectId].removeTask(taskId, tabName);
-        this.#notify({ tabName });
+        this.#notify();
     }
 
     completeTask(taskId, currentProjectId, currentPlayerId) {

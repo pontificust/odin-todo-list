@@ -894,7 +894,7 @@ header {
     background-color: var(--primary-amber-color);
 }
 
-.tasks__priority.easy {
+.tasks__priority.low {
     background-color: #089e1c;
 }
 
@@ -906,7 +906,7 @@ header {
     border-left: 5px solid var(--primary-amber-color);
 }
 
-.easy {
+.low {
     border-left: 5px solid #089e1c;
 }
 

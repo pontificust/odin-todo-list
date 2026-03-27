@@ -7,7 +7,7 @@ import {
     EventHandler,
     Project,
     User,
-    Task
+    projects
 } from "./modules/modules.js";
 
 import "./assets/css/global.css";
@@ -26,13 +26,11 @@ window.addEventListener('DOMContentLoaded', () => {
     // 1. Load data form the localStorage
     if (storageManager.isEmpty()) {
         stateManager.addUser(user);
-        stateManager.addProject(new Project({
-            title: 'home',
-            color: '#696969',
-            activeTasks: [],
-            completedTasks: [],
-            id: 'default',
-        }));
+        projects.forEach( project => {
+            console.log(project)
+            stateManager.addProject(project)
+
+        });
         storageManager.updateStorage(stateManager.projects, stateManager.users);
     } else {
         const data = storageManager.getDataset('projects', 'users');
@@ -75,7 +73,8 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('input', (e) => {
-        if (e.target.id === "color") {
+        if (e.target.id === "color" || e.target.id === 'filter') {
+            console.log(e.target)
             renderManager.safeTransition(() => eventHandler.input[e.target.id](e));
         }
     });

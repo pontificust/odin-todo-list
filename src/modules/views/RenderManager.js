@@ -1,7 +1,24 @@
-import { createElement } from "../createElement.js/createElement.js";
+import { createElement } from "./createElement.js";
 
 export class RenderManger {
     currentProjectId = 'default';
+    currentTasksArr = 'activeTasks'
+    filters = {
+        'priority': (project, priorityType) => this.filterPriority(project,
+            priorityType),
+        'overdue': (project) => this.filterOverdue(project),
+        'upcoming': (project) => this.filterUpcoming(project),
+        'filterOff': () => this.renderTasks(),
+    }
+
+    filterTypes = {
+        'critical': 'priority',
+        'moderate': 'priority',
+        'low': 'priority',
+        'overdue': 'overdue',
+        'upcoming': 'upcoming',
+        'filterOff': 'filterOff'
+    }
 
     constructor(
         tasksContainer,
@@ -70,13 +87,15 @@ export class RenderManger {
     }
 
 
-    renderTasks = (tabName = "activeTasks") => {
+    renderTasks = (project) => {
         this.tasksContainer.innerHTML = '';
         const projectTitle = document.querySelector('.tasks__sector-title');
-        const project = this.stateManager.projects[this.currentProjectId];
+        if (!project) {
+            project = this.stateManager.projects[this.currentProjectId];
+        }
         projectTitle.textContent = project.title;
 
-        const tasks = project[`${tabName}`];
+        const tasks = project[`${this.currentTasksArr}`];
         for (let j = 0; j < tasks.length; j += 1) {
             const {
                 task,
@@ -95,7 +114,7 @@ export class RenderManger {
             taskXp.textContent = `+ ${tasks[j].getXP()} xp`;
             tasksWrapper.classList.add(`${priority}`);
             task.dataset.id = id;
-            if (tabName === 'completedTasks') {
+            if (this.currentTasksArr === 'completedTasks') {
                 task.classList.add('complete');
                 task.querySelector('button[data-id="completeTask"]').remove();
             }
@@ -191,11 +210,14 @@ export class RenderManger {
 
     closeTask = (e) => {
         const taskCard = e.target.closest('.tasks__card');
-        let tabName = 'activeTasks';
         if (taskCard.classList.contains('complete')) {
-            tabName = 'completedTasks';
+            this.currentTasksArr = 'completedTasks';
         }
-        this.stateManager.removeTask(taskCard.dataset.id, this.currentProjectId, tabName);
+        this.stateManager.removeTask(
+            taskCard.dataset.id,
+            this.currentProjectId,
+            this.currentTasksArr
+        );
         taskCard.classList.add('hide');
         setTimeout(() => {
             taskCard.remove();
@@ -249,25 +271,71 @@ export class RenderManger {
         this.openTab();
     }
 
+    #updateTasksArr(tabName) {
+        this.currentTasksArr = tabName === 'openActive' ? 'activeTasks' :
+                'completedTasks';
+    }
+
     openTab = (e) => {
         const tabs = document.querySelectorAll('.tasks__tab');
         const addButton = document.querySelector('.tasks__btn');
         tabs.forEach(tab => tab.classList.remove('active'));
-        let tabName = 'activeTasks';
         if (e) {
             e.target.classList.add('active');
-            tabName = e.target.dataset.id === 'openActive' ? 'activeTasks' :
-                'completedTasks';
+            this.#updateTasksArr(e.target.dataset.id);
         } else {
             document.querySelector('[data-id="openActive"]').classList.add('active');
         }
 
-        if (tabName === 'completedTasks') {
+        if (this.currentTasksArr === 'completedTasks') {
 
             addButton.classList.add('hide');
         } else {
             addButton.classList.remove('hide');
         }
-        this.renderTasks(tabName);
+        this.renderTasks();
+    }
+
+    filterPriority(project, priorityType) {
+        console.log(project[this.currentTasksArr])
+        const filteredTasks = project[this.currentTasksArr].filter( task => {
+            return task.priority === priorityType;
+        });
+        let filteredProject = {...project};
+        filteredProject[this.currentTasksArr] = filteredTasks;
+        this.renderTasks(filteredProject);
+    }
+
+    filterOverdue(project) {
+        const currentDate = Date.now();
+        const filteredTasks = project[this.currentTasksArr].filter( task => {
+            const taskDate = new Date(task.dueDate.split('-')).getTime();
+            console.log(taskDate)
+            return taskDate < currentDate;
+        });
+        let filteredProject = {...project};
+        filteredProject[this.currentTasksArr] = filteredTasks;
+        this.renderTasks(filteredProject);
+    }
+
+    filterUpcoming(project) {
+        const currentDate = Date.now();
+        const filteredTasks = project[this.currentTasksArr].filter( task => {
+            const taskDate = new Date(task.dueDate.split('-')).getTime();
+            console.log(taskDate)
+            return taskDate > currentDate;
+        });
+        let filteredProject = {...project};
+        filteredProject[this.currentTasksArr] = filteredTasks;
+        this.renderTasks(filteredProject);
+    }
+
+    filterTasks = (e) => {
+        const filterName = e.target.value;
+        const filterType = this.filterTypes[filterName];
+        const project = this.stateManager.projects[this.currentProjectId];
+        console.log(filterType)
+
+        this.filters[filterType](project, filterName);
     }
 }

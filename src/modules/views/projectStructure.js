@@ -1,4 +1,4 @@
-import { Element } from "../Element/Element.js";
+import { Element } from "./Element.js";
 
 export const projectStructure = new Element('li', [
         new Element('svg', [

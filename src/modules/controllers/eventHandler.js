@@ -30,13 +30,10 @@ export class EventHandler {
         };
         this.input = {
             'color': (e) => renderManager.showColorInput(e),
+            'filter': (e) => renderManager.filterTasks(e),
         };
         this.updateStorage = (e, projects, users) => {
             storageManager.updateStorage(projects, users);
-            if (e.detail) {
-                renderManager.renderTasks(e.detail.tabName);
-                return;
-            }
             renderManager.render();
         };
     }

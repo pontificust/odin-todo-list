@@ -37,12 +37,38 @@
         <section class="tasks">
             <h2 class="tasks__title">Objectives</h2>
             <h2 class="tasks__sector-title">Objectives</h2>
+            <div class="tasks__filter-wrapper">
+                <label for="filter">Filter</label>
+                <div class="tasks__select-wrapper">
+                    <select class="popup__input" name="filter" id="filter" data-id="filter" required>
+                        <option value="filterOff" selected></option>
+                        <option value="critical">Critical</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="low">Low</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="overdue">Overdue</option>
+                    </select>
+                </div>
+            </div>
+            <div class="tasks__filter-wrapper">
+                <label for="filter">sort</label>
+                <div class="tasks__select-wrapper">
+                    <select class="popup__input" name="filter" id="filter" data-id="filter" required>
+                        <option value="" selected></option>
+                        <option value="critical">Name</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="easy">Easy</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="overdue">Overdue</option>
+                    </select>
+                </div>
+            </div>
             <div class="tasks__tabs">
                 <button class="tasks__tab active" data-id="openActive">Active</button>
                 <button class="tasks__tab" data-id="openCompleted">Completed</button>
             </div>
             <ul class="tasks__cards">
-                
+
             </ul>
             <button class="tasks__btn button" data-id="openPopup">[initialize new objective]</button>
         </section>
@@ -71,7 +97,7 @@
                         <select class="popup__input" name="priority" id="priority" required>
                             <option value="critical">Critical</option>
                             <option value="moderate" selected>Moderate</option>
-                            <option value="easy">Easy</option>
+                            <option value="easy">Low</option>
                         </select>
                     </div>
                 </div>

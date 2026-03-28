@@ -7,7 +7,16 @@ export class StateManager {
     users = {}
     
     constructor() {
-        
+        this.projects = {};
+        this.users = {};
+
+        this.uiState = {
+            currentUserId: 'default',
+            currentProjectId: 'default',
+            currentTasksArr: 'activeTasks',
+            activeFilter: 'filterOff',
+            activeSort: 'sortOff',
+        }
     }
     
     #notify( detail = null) {
@@ -72,10 +81,10 @@ export class StateManager {
         this.#notify();
     }
 
-    completeTask(taskId, currentProjectId, currentPlayerId) {
+    completeTask(taskId, currentProjectId, currentUserId) {
         const task = this.projects[currentProjectId].completeTask(taskId);
 
-        this.users[currentPlayerId].addXP(task.getXP());
+        this.users[currentUserId].addXP(task.getXP());
         this.#notify();
     }
 

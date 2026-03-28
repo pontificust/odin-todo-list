@@ -5,7 +5,6 @@ import {
     StateManager,
     StorageManager,
     EventHandler,
-    Project,
     User,
     projects
 } from "./modules/modules.js";
@@ -20,7 +19,8 @@ window.addEventListener('DOMContentLoaded', () => {
         name: 'Courier',
         totalXP: 0,
         level: 1, 
-        rank: 'novice'
+        rank: 'novice',
+        id: 'default',
     });
 
     // 1. Load data form the localStorage

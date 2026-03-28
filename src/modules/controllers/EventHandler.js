@@ -84,10 +84,20 @@ export class EventHandler {
 
                 renderManager.showColorInput(output, colorValue);
             },
-            'filter': (e) => renderManager.filterTasks(e),
-            'sort': (e) => renderManager.sortTasks(e),
+            'filter': (e) => {
+                const filterName = e.target.value;
+
+                renderManager.activeFilter = filterName;
+                renderManager.renderTasks();
+            },
+            'sort': (e) => {
+                const sortName = e.target.value;
+
+                renderManager.activeSort = sortName;
+                renderManager.renderTasks();
+            },
         };
-        this.updateStorage = (e, projects, users) => {
+        this.updateStorage = (projects, users) => {
             storageManager.updateStorage(projects, users);
             renderManager.render();
         };

@@ -32,7 +32,7 @@
                 <ul class="aside__menu-projects">
                 </ul>
             </nav>
-            <button class="aside__button button" data-id="openProjectPopup">[Initialize new sector]</button>
+            <button class="aside__button button" data-id="openPopup" data-popup-type="project">[Initialize new sector]</button>
         </aside>
         <section class="tasks">
             <h2 class="tasks__title">Objectives</h2>
@@ -62,13 +62,13 @@
                 </div>
             </div>
             <div class="tasks__tabs">
-                <button class="tasks__tab active" data-id="openActive">Active</button>
-                <button class="tasks__tab" data-id="openCompleted">Completed</button>
+                <button class="tasks__tab active" data-id="openTab" data-tab-type="openActive">Active</button>
+                <button class="tasks__tab" data-id="openTab" data-tab-type="openCompleted">Completed</button>
             </div>
             <ul class="tasks__cards">
 
             </ul>
-            <button class="tasks__btn button" data-id="openPopup">[initialize new objective]</button>
+            <button class="tasks__btn button" data-id="openPopup" data-popup-type="task">[initialize new objective]</button>
         </section>
     </main>
     <div class="overlay close" id="task">

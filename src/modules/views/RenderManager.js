@@ -50,7 +50,7 @@ export class RenderManger {
             addTaskBtn: document.querySelector('.tasks__btn'),
             projectTitle: document.querySelector('.tasks__sector-title'),
         }
-        this.currentPlayerId = Object.keys(stateManager.users)[0];
+        this.currentUserId = Object.keys(stateManager.users)[0];
         this.currentProjectId = 'default';
         this.currentTasksArr = 'activeTasks'
     }
@@ -110,7 +110,7 @@ export class RenderManger {
         tasksWrapper.classList.add(`${taskData.priority}`);
         task.dataset.id = taskData.id;
 
-        if (this.currentTasksType === 'completedTasks') {
+        if (this.currentTasksArr === 'completedTasks') {
             task.classList.add('complete');
             task.querySelector('button[data-id="completeTask"]')?.remove();
         }
@@ -150,6 +150,7 @@ export class RenderManger {
 
         const fragment = document.createDocumentFragment();
         const tasksToShow = project[`${this.currentTasksArr}`];
+        console.log(tasksToShow)
 
         tasksToShow.forEach(taskData => {
             fragment.appendChild(this.#createTaskElement(taskData));
@@ -169,7 +170,7 @@ export class RenderManger {
     }
 
     renderLevel = () => {
-        const { totalXP, rank, level } = this.stateManager.users[this.currentPlayerId];
+        const { totalXP, rank, level } = this.stateManager.users[this.currentUserId];
 
         this.ui.levelBar.style.width = `${calculateProgress(totalXP, level)}%`;
         this.ui.spanLevel.textContent = level;
@@ -190,8 +191,7 @@ export class RenderManger {
         this.ui.popupOutput.textContent = 'Your color';
     }
 
-    closePopup = (e) => {
-        const popupOverlay = e.target.closest('.overlay');
+    hidePopup = (popupOverlay) => {
         const popupInputs = popupOverlay.querySelectorAll('.popup__input');
 
         popupInputs.forEach(input => {
@@ -202,80 +202,24 @@ export class RenderManger {
         popupOverlay.classList.add('close');
     }
 
-    openPopup = (e) => {
-        let popupOverlay;
-        if (e.target.dataset.id === 'openPopup') {
-            popupOverlay = document.querySelector('#task');
-        } else {
-            popupOverlay = document.querySelector('#project');
-        }
+    showPopup = (type) => {
+        const popupOverlay = document.querySelector(type);
         const popupInputs = popupOverlay.querySelectorAll('.popup__input');
 
         popupInputs.forEach(input => input.required = true);
         popupOverlay.classList.remove('close');
     }
 
-    closeTask = (e) => {
-        const taskCard = e.target.closest('.tasks__card');
-        if (taskCard.classList.contains('complete')) {
-            this.currentTasksArr = 'completedTasks';
-        }
-        this.stateManager.removeTask(
-            taskCard.dataset.id,
-            this.currentProjectId,
-            this.currentTasksArr
-        );
-        taskCard.classList.add('hide');
+    animateCardRemoval = (card, className) => {
+        card.classList.add(className);
         setTimeout(() => {
-            taskCard.remove();
+            card.remove();
         }, 400);
     }
 
-    moveTaskToCompleted = (e) => {
-        const taskCard = e.target.closest('.tasks__card');
-        this.stateManager.completeTask(
-            taskCard.dataset.id,
-            this.currentProjectId,
-            this.currentPlayerId
-        );
-        taskCard.remove();
-        this.renderLevel();
-    }
-
-    closeProject = (e) => {
-        const projectCard = e.target.closest('.aside__menu-project');
-        if ('default' === projectCard.dataset.id) {
-            return;
-        }
-        this.currentProjectId = 'default';
-        this.stateManager.removeProject(projectCard.dataset.id);
-        projectCard.classList.add('hide');
-        setTimeout(() => {
-            projectCard.remove();
-        }, 400);
-    }
-
-    #updateOutput(e) {
-        const output = e.target.nextElementSibling;
-        output.textContent = e.target.value;
-        return output;
-    }
-
-    showColorInput = (e) => {
-        const output = this.#updateOutput(e);
-        const color = output.textContent;
-        document.documentElement.style.setProperty('--user-input-color', color);
-    }
-
-    openProject = (e) => {
-        const prevProjectCard = document.querySelector(`[data-id="${this.currentProjectId}"]`);
-        prevProjectCard.classList.remove('active');
-
-        this.currentProjectId = e.target.closest('li').dataset.id;
-        const projectCard = document.querySelector(`[data-id="${this.currentProjectId}"]`);
-        projectCard.classList.add('active');
-
-        this.openTab();
+    showColorInput = (output, colorValue) => {
+        output.textContent = colorValue;
+        document.documentElement.style.setProperty('--user-input-color', colorValue);
     }
 
     #updateTasksArr(tabName) {
@@ -283,21 +227,23 @@ export class RenderManger {
             'completedTasks';
     }
 
-    openTab = (e) => {
-        this.ui.tabs.forEach(tab => tab.classList.remove('active'));
-        if (e) {
-            e.target.classList.add('active');
-            this.#updateTasksArr(e.target.dataset.id);
-        } else {
-            document.querySelector('[data-id="openActive"]').classList.add('active');
-        }
-
-        if (this.currentTasksArr === 'completedTasks') {
-
+    #hideAddTaskBtn = (tabType) => {
+        if (tabType === 'openCompleted') {
             this.ui.addTaskBtn.classList.add('hide');
         } else {
             this.ui.addTaskBtn.classList.remove('hide');
         }
+    }
+
+    openTab = (tabType) => {
+        console.log(tabType)
+        this.ui.tabs.forEach(tab => tab.classList.remove('active'));
+        document.querySelector(`[data-tab-type=${tabType}]`).classList.add('active');
+        console.log(document.querySelector(`[data-tab-type=${tabType}]`))
+        this.#updateTasksArr(tabType);
+        console.log(this.currentTasksArr)
+
+        this.#hideAddTaskBtn(tabType);
         this.renderTasks();
     }
 

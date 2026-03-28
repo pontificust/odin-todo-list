@@ -2,7 +2,7 @@ export { RenderManger } from "./views/RenderManager.js";
 export { taskStructure } from "./views/taskStructure.js";
 export { projectStructure } from "./views/projectStructure.js";
 export { Project } from "./models/Project.js";
-export { EventHandler } from "./controllers/eventHandler.js";
+export { EventHandler } from "./controllers/EventHandler.js";
 export { StateManager } from "./controllers/StateManager.js";
 export { StorageManager } from "./StorageManager/StorageManager.js";
 export { User } from "./models/User.js";

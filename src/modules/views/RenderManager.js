@@ -1,9 +1,8 @@
 import { createElement } from "./createElement.js";
-import { getContrastColor, calculateProgress} from "../utils.js";
+import { getContrastColor, calculateProgress } from "../utils.js";
 
 export class RenderManger {
-    currentProjectId = 'default';
-    currentTasksArr = 'activeTasks'
+
     filters = {
         'priority': (project, priorityType) => this.filterPriority(project,
             priorityType),
@@ -41,7 +40,19 @@ export class RenderManger {
         this.taskStructure = taskStructure;
         this.projectStructure = projectStructure;
         this.stateManager = stateManager;
+        this.ui = {
+            levelBar: document.querySelector('.header__user-bar'),
+            spanLevel: document.querySelector('[data-id="level"]'),
+            spanRank: document.querySelector('[data-id="rank"]'),
+            spanXp: document.querySelector('[data-id="xp"]'),
+            popupOutput: document.querySelector('.popup__output'),
+            tabs: document.querySelectorAll('.tasks__tab'),
+            addTaskBtn: document.querySelector('.tasks__btn'),
+            projectTitle: document.querySelector('.tasks__sector-title'),
+        }
         this.currentPlayerId = Object.keys(stateManager.users)[0];
+        this.currentProjectId = 'default';
+        this.currentTasksArr = 'activeTasks'
     }
 
     #parseTaskStructure() {
@@ -82,84 +93,88 @@ export class RenderManger {
         });
     }
 
+    #createTaskElement(taskData) {
+        const {
+            task,
+            taskName,
+            taskPriority,
+            taskDate,
+            taskXp,
+            tasksWrapper } = this.#parseTaskStructure();
 
-    renderTasks = (project) => {
-        this.tasksContainer.innerHTML = '';
-        const projectTitle = document.querySelector('.tasks__sector-title');
-        if (!project) {
-            project = this.stateManager.projects[this.currentProjectId];
+        taskName.textContent = taskData.title;
+        taskPriority.textContent = `[${taskData.priority}]`;
+        taskPriority.classList.add(`${taskData.priority}`);
+        taskDate.textContent = `due ${taskData.dueDate}`;
+        taskXp.textContent = `+ ${taskData.getXP()} xp`;
+        tasksWrapper.classList.add(`${taskData.priority}`);
+        task.dataset.id = taskData.id;
+
+        if (this.currentTasksType === 'completedTasks') {
+            task.classList.add('complete');
+            task.querySelector('button[data-id="completeTask"]')?.remove();
         }
-        console.log(project)
-        projectTitle.textContent = project.title;
+        return task;
+    }
 
-        const tasks = project[`${this.currentTasksArr}`];
-        for (let j = 0; j < tasks.length; j += 1) {
-            const {
-                task,
-                taskName,
-                taskPriority,
-                taskDate,
-                taskXp,
-                tasksWrapper } = this.#parseTaskStructure();
-            const priority = tasks[j].priority;
-            const id = tasks[j].id;
+    #createProjectElement([projectId, projectData]) {
+        const {
+            projectCard,
+            projectIcon,
+            projectName,
+            projectCardBtn,
+            projectCardBtnIcon
+        } = this.#parseProjectStructure();
 
-            taskName.textContent = tasks[j].title;
-            taskPriority.textContent = `[${priority}]`;
-            taskPriority.classList.add(`${priority}`);
-            taskDate.textContent = `due ${tasks[j].dueDate}`;
-            taskXp.textContent = `+ ${tasks[j].getXP()} xp`;
-            tasksWrapper.classList.add(`${priority}`);
-            task.dataset.id = id;
-            if (this.currentTasksArr === 'completedTasks') {
-                task.classList.add('complete');
-                task.querySelector('button[data-id="completeTask"]').remove();
-            }
-            this.tasksContainer.appendChild(task);
+        if (project[0] === this.currentProjectId) {
+            projectCardBtn.classList.add('hide');
+            projectCard.classList.add('active');
         }
+
+        const contrastColor = getContrastColor(projectData.color);
+
+        projectCardBtnIcon.style.fill = contrastColor;
+        projectCard.dataset.id = projectId;
+        projectCard.style.background = `
+            linear-gradient(${projectData.color}, ${projectData.color}80)`;
+        projectCard.style.color = contrastColor;
+        projectName.textContent = projectData.title;
+        projectIcon.style.fill = contrastColor;
+
+        return projectCard;
+    }
+
+    renderTasks = (customProject = null) => {
+        const project = customProject || this.stateManager.projects[this.currentProjectId];
+        this.ui.projectTitle.textContent = project.title;
+
+        const fragment = document.createDocumentFragment();
+        const tasksToShow = project[`${this.currentTasksArr}`];
+
+        tasksToShow.forEach(taskData => {
+            fragment.appendChild(this.#createTaskElement(taskData));
+        });
+        this.tasksContainer.replaceChildren(fragment);
     }
 
     renderProjects = () => {
-        this.projectsContainer.innerHTML = '';
+        const fragment = document.createDocumentFragment();
+        const projects = Object.entries(this.stateManager.projects);
 
-        for (let project of Object.entries(this.stateManager.projects)) {
-            const {
-                projectCard,
-                projectIcon,
-                projectName,
-                projectCardBtn,
-                projectCardBtnIcon
-            } = this.#parseProjectStructure();
-
-            if (project[0] === this.currentProjectId) {
-                projectCardBtn.classList.add('hide');
-                projectCard.classList.add('active');
-            }
-
-            const contrastColor = getContrastColor(project[1].color);
-
-            projectCardBtnIcon.style.fill = contrastColor;
-            projectCard.dataset.id = project[0];
-            projectCard.style.background = `
-            linear-gradient(${project[1].color}, ${project[1].color}80)`;
-            projectCard.style.color = contrastColor;
-            projectName.textContent = project[1].title;
-            projectIcon.style.fill = contrastColor;
-            this.projectsContainer.appendChild(projectCard);
-        }
+        projects.forEach(project => {
+            console.log(project)
+            fragment.appendChild(this.#createProjectElement(project));
+        });
+        this.projectsContainer.replaceChildren(fragment);
     }
 
     renderLevel = () => {
-        const levelBar = document.querySelector('.header__user-bar');
-        const spanLevel = document.querySelector('[data-id="level"]');
-        const spanRank = document.querySelector('[data-id="rank"]');
-        const spanXp = document.querySelector('[data-id="xp"]');
         const { totalXP, rank, level } = this.stateManager.users[this.currentPlayerId];
 
-        levelBar.style.width = `${calculateProgress(totalXP, level)}%`;
-        spanLevel.textContent = level;
-        spanRank.textContent = rank;
-        spanXp.textContent = totalXP;
+        this.ui.levelBar.style.width = `${calculateProgress(totalXP, level)}%`;
+        this.ui.spanLevel.textContent = level;
+        this.ui.spanRank.textContent = rank;
+        this.ui.spanXp.textContent = totalXP;
     }
 
     render = () => {
@@ -169,11 +184,10 @@ export class RenderManger {
     }
 
     #cleanColorOutput = () => {
-        const popupOutput = document.querySelector('.popup__output');
         const styles = getComputedStyle(document.documentElement);
         const initialColor = styles.getPropertyValue('--primary-amber-color');
         document.documentElement.style.setProperty('--user-input-color', initialColor);
-        popupOutput.textContent = 'Your color';
+        this.ui.popupOutput.textContent = 'Your color';
     }
 
     closePopup = (e) => {
@@ -270,9 +284,7 @@ export class RenderManger {
     }
 
     openTab = (e) => {
-        const tabs = document.querySelectorAll('.tasks__tab');
-        const addButton = document.querySelector('.tasks__btn');
-        tabs.forEach(tab => tab.classList.remove('active'));
+        this.ui.tabs.forEach(tab => tab.classList.remove('active'));
         if (e) {
             e.target.classList.add('active');
             this.#updateTasksArr(e.target.dataset.id);
@@ -282,9 +294,9 @@ export class RenderManger {
 
         if (this.currentTasksArr === 'completedTasks') {
 
-            addButton.classList.add('hide');
+            this.ui.addTaskBtn.classList.add('hide');
         } else {
-            addButton.classList.remove('hide');
+            this.ui.addTaskBtn.classList.remove('hide');
         }
         this.renderTasks();
     }

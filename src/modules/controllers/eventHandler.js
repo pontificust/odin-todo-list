@@ -1,3 +1,5 @@
+import { getFormData  } from "../utils.js";
+
 export class EventHandler {
     constructor(
         stateManager,
@@ -17,12 +19,12 @@ export class EventHandler {
         };
         this.submit = {
             'project': (e) => {
-                const projectData = this.getFormData(e);
+                const projectData = getFormData(e);
                 stateManager.addProject(projectData);
                 renderManager.closePopup(e);
             },
             'task': (e) => {
-                const taskData = this.getFormData(e);
+                const taskData = getFormData(e);
 
                 stateManager.addTask(taskData, renderManager.currentProjectId);
                 renderManager.closePopup(e);
@@ -37,11 +39,5 @@ export class EventHandler {
             storageManager.updateStorage(projects, users);
             renderManager.render();
         };
-    }
-
-    getFormData(e) {
-        e.preventDefault();
-        const projectData = Object.fromEntries(new FormData(e.target));
-        return projectData;
     }
 }

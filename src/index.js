@@ -73,8 +73,12 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('input', (e) => {
-        if (e.target.id === "color" || e.target.id === 'filter') {
-            console.log(e.target)
+        if (
+            e.target.id === "color" || 
+            e.target.id === 'filter' ||
+            e.target.id === 'sort'
+        ) {
+            console.log(e.target.id)
             renderManager.safeTransition(() => eventHandler.input[e.target.id](e));
         }
     });

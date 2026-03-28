@@ -1,4 +1,5 @@
 import { createElement } from "./createElement.js";
+import { getContrastColor, calculateProgress} from "../utils.js";
 
 export class RenderManger {
     currentProjectId = 'default';
@@ -9,6 +10,13 @@ export class RenderManger {
         'overdue': (project) => this.filterOverdue(project),
         'upcoming': (project) => this.filterUpcoming(project),
         'filterOff': () => this.renderTasks(),
+    }
+
+    sorts = {
+        'priority': (project) => this.sortPriority(project),
+        'reverse': (project) => this.sortOverdue(project),
+        'chronological': (project) => this.sortUpcoming(project),
+        'sortOff': () => this.renderTasks(),
     }
 
     filterTypes = {
@@ -63,18 +71,6 @@ export class RenderManger {
         };
     }
 
-    #getContrastColor(hexColor) {
-        const hex = hexColor.replace('#', '');
-
-        const r = parseInt(hex.substr(0, 2), 16);
-        const g = parseInt(hex.substr(2, 2), 16);
-        const b = parseInt(hex.substr(4, 2), 16);
-
-        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-
-        return (yiq >= 128) ? '#000000' : '#ffffff';
-    }
-
     safeTransition(callback) {
         if (!document.startViewTransition) {
             callback();
@@ -93,6 +89,7 @@ export class RenderManger {
         if (!project) {
             project = this.stateManager.projects[this.currentProjectId];
         }
+        console.log(project)
         projectTitle.textContent = project.title;
 
         const tasks = project[`${this.currentTasksArr}`];
@@ -122,7 +119,7 @@ export class RenderManger {
         }
     }
 
-    rednerProjects = () => {
+    renderProjects = () => {
         this.projectsContainer.innerHTML = '';
 
         for (let project of Object.entries(this.stateManager.projects)) {
@@ -139,7 +136,7 @@ export class RenderManger {
                 projectCard.classList.add('active');
             }
 
-            const contrastColor = this.#getContrastColor(project[1].color);
+            const contrastColor = getContrastColor(project[1].color);
 
             projectCardBtnIcon.style.fill = contrastColor;
             projectCard.dataset.id = project[0];
@@ -158,19 +155,15 @@ export class RenderManger {
         const spanRank = document.querySelector('[data-id="rank"]');
         const spanXp = document.querySelector('[data-id="xp"]');
         const { totalXP, rank, level } = this.stateManager.users[this.currentPlayerId];
-        let newWidth = (totalXP / 1000) * 100 - (+level - 1) * 100;
-        if (newWidth >= 100) {
-            newWidth = newWidth - 100;
-        }
 
-        levelBar.style.width = `${newWidth}%`;
+        levelBar.style.width = `${calculateProgress(totalXP, level)}%`;
         spanLevel.textContent = level;
         spanRank.textContent = rank;
         spanXp.textContent = totalXP;
     }
 
     render = () => {
-        this.rednerProjects();
+        this.renderProjects();
         this.renderTasks();
         this.renderLevel();
     }
@@ -273,7 +266,7 @@ export class RenderManger {
 
     #updateTasksArr(tabName) {
         this.currentTasksArr = tabName === 'openActive' ? 'activeTasks' :
-                'completedTasks';
+            'completedTasks';
     }
 
     openTab = (e) => {
@@ -296,39 +289,38 @@ export class RenderManger {
         this.renderTasks();
     }
 
-    filterPriority(project, priorityType) {
-        console.log(project[this.currentTasksArr])
-        const filteredTasks = project[this.currentTasksArr].filter( task => {
+    #renderFilteredTasks(project, filteredTasks) {
+        let filteredProject = { ...project };
+        filteredProject[this.currentTasksArr] = filteredTasks;
+        this.renderTasks(filteredProject);
+    }
+
+    filterPriority = (project, priorityType) => {
+        const filteredTasks = project[this.currentTasksArr].filter(task => {
             return task.priority === priorityType;
         });
-        let filteredProject = {...project};
-        filteredProject[this.currentTasksArr] = filteredTasks;
-        this.renderTasks(filteredProject);
+        console.log(priorityType)
+        this.#renderFilteredTasks(project, filteredTasks);
     }
 
-    filterOverdue(project) {
-        const currentDate = Date.now();
-        const filteredTasks = project[this.currentTasksArr].filter( task => {
-            const taskDate = new Date(task.dueDate.split('-')).getTime();
-            console.log(taskDate)
+    filterOverdue = (project) => {
+        const currentDate = Date.now().setHours(0, 0, 0, 0);
+        const filteredTasks = project[this.currentTasksArr].filter(task => {
+            const taskDate = new Date(task.dueDate).getTime();
             return taskDate < currentDate;
         });
-        let filteredProject = {...project};
-        filteredProject[this.currentTasksArr] = filteredTasks;
-        this.renderTasks(filteredProject);
+        this.#renderFilteredTasks(project, filteredTasks);
     }
 
-    filterUpcoming(project) {
-        const currentDate = Date.now();
-        const filteredTasks = project[this.currentTasksArr].filter( task => {
-            const taskDate = new Date(task.dueDate.split('-')).getTime();
-            console.log(taskDate)
+    filterUpcoming = (project) => {
+        const currentDate = Date.now().setHours(0, 0, 0, 0);
+        const filteredTasks = project[this.currentTasksArr].filter(task => {
+            const taskDate = new Date(task.dueDate).getTime();
             return taskDate > currentDate;
         });
-        let filteredProject = {...project};
-        filteredProject[this.currentTasksArr] = filteredTasks;
-        this.renderTasks(filteredProject);
+        this.#renderFilteredTasks(project, filteredTasks);
     }
+
 
     filterTasks = (e) => {
         const filterName = e.target.value;
@@ -336,6 +328,41 @@ export class RenderManger {
         const project = this.stateManager.projects[this.currentProjectId];
         console.log(filterType)
 
-        this.filters[filterType](project, filterName);
+        this.filters[filterType].call(this, project, filterName);
+    }
+
+    sortPriority = (project) => {
+        const filteredTasks = project[this.currentTasksArr].toSorted((task1, task2) => {
+            return task1.getXP() - task2.getXP();
+        });
+        this.#renderFilteredTasks(project, filteredTasks);
+    }
+
+    sortOverdue = (project) => {
+        const filteredTasks = project[this.currentTasksArr].toSorted((task1, task2) => {
+            const taskDate1 = new Date(task1.dueDate).getTime();
+            const taskDate2 = new Date(task2.dueDate).getTime();
+            return taskDate2 - taskDate1;
+        });
+        console.log(filteredTasks)
+        this.#renderFilteredTasks(project, filteredTasks);
+    }
+
+    sortUpcoming = (project) => {
+        const filteredTasks = project[this.currentTasksArr].toSorted((task1, task2) => {
+            const taskDate1 = new Date(task1.dueDate).getTime();
+            const taskDate2 = new Date(task2.dueDate).getTime();
+            return taskDate1 - taskDate2;
+        });
+        this.#renderFilteredTasks(project, filteredTasks);
+    }
+
+
+    sortTasks = (e) => {
+        const sortName = e.target.value;
+        const project = this.stateManager.projects[this.currentProjectId];
+        console.log(sortName)
+
+        this.sorts[sortName].call(this, project);
     }
 }

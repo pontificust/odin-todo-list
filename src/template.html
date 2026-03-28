@@ -51,15 +51,13 @@
                 </div>
             </div>
             <div class="tasks__filter-wrapper">
-                <label for="filter">sort</label>
+                <label for="sort">sort</label>
                 <div class="tasks__select-wrapper">
-                    <select class="popup__input" name="filter" id="filter" data-id="filter" required>
-                        <option value="" selected></option>
-                        <option value="critical">Name</option>
-                        <option value="moderate">Moderate</option>
-                        <option value="easy">Easy</option>
-                        <option value="upcoming">Upcoming</option>
-                        <option value="overdue">Overdue</option>
+                    <select class="popup__input" name="filter" id="sort" data-id="filter" required>
+                        <option value="sortOff" selected></option>
+                        <option value="priority">priority</option>
+                        <option value="chronological">chronological</option>
+                        <option value="reverse">reverse chronological</option>
                     </select>
                 </div>
             </div>

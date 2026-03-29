@@ -767,7 +767,7 @@ header {
     z-index: 1;
 }
 
-.tasks__tab-input{
+.tasks__tab-input {
     display: none;
 }
 
@@ -790,8 +790,7 @@ header {
     color: #fff;
 }
 
-.tasks__tabs .tasks__tab-input:checked
-+ .tasks__tab-label {
+.tasks__tabs .tasks__tab-input:checked+.tasks__tab-label {
     color: var(--primary-amber-color);
     text-shadow: 0 0 5px var(--primary-amber-color);
 }
@@ -808,16 +807,25 @@ header {
     transition: all .4s;
 }
 
-#tab-active:checked ~ .tasks__tab-slider {
+#tab-active:checked~.tasks__tab-slider {
     transform: translateX(0%);
     border: 1px solid var(--primary-amber-color);
     box-shadow: 0 0 10px var(--primary-amber-color);
 }
 
-#tab-completed:checked ~ .tasks__tab-slider {
+#tab-completed:checked~.tasks__tab-slider {
     transform: translateX(100%);
     border: 1px solid var(--primary-amber-color);
     box-shadow: 0 0 10px var(--primary-amber-color);
+}
+
+.tasks__fields-wrapper {
+    display: flex;
+    gap: 20px;
+}
+
+.tasks__field {
+    flex: 1;
 }
 
 .tasks__cards {
@@ -861,7 +869,7 @@ header {
 }
 
 .tasks__priority {
-    width: max(110px, 30%);
+    width: max(110px, 25%);
     text-align: center;
     background-color: var(--status-red-color);
     color: #fff;
@@ -1033,7 +1041,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-image: url('../img/calendar.svg');
     width: 30px;
     height: 30px;
-    top: 12px;
+    top: 10px;
     right: 10px;
     pointer-events: none;
 }
@@ -1091,12 +1099,13 @@ option {
 
 .popup__input#color {
     display: none;
+
 }
 
 .popup__label[for="color"] {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    align-items: end;
 }
 
 .popup__label[for="color"]::after {
@@ -1106,6 +1115,11 @@ option {
     background-color: var(--user-input-color);
     border-radius: 50%;
     cursor: pointer;
+}
+
+.popup__label {
+    margin-bottom: 8px;
+    text-transform: uppercase;
 }
 
 .close {
@@ -1124,8 +1138,7 @@ option {
 }
 
 .hide {
-    opacity: 0;
-    visibility: hidden;
+    display: none;
 }
 
 .complete {
@@ -1140,6 +1153,10 @@ option {
 
     .tasks__card-btns {
         flex-wrap: wrap;
+    }
+
+    .aside__menu-name {
+        width: 30%;
     }
 }
 

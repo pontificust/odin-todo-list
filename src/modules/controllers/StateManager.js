@@ -5,7 +5,7 @@ import { User } from "../models/User.js";
 export class StateManager {
     projects = {}
     users = {}
-    
+
     constructor() {
         this.projects = {};
         this.users = {};
@@ -22,9 +22,9 @@ export class StateManager {
     setUIState(key, value) {
         this.uiState[key] = value;
     }
-    
-    #notify( detail = null) {
-       const event = new CustomEvent('updateStorage', { detail });
+
+    #notify(detail = null) {
+        const event = new CustomEvent('updateStorage', { detail });
         document.dispatchEvent(event);
     }
 
@@ -37,15 +37,14 @@ export class StateManager {
     #hydrate() {
         this.projects = Object.fromEntries(
             Object.entries(this.projects).map(project => {
-            const hydratedProject = new Project(project[1]);
-            console.log(project[1].activeTasks)
-            hydratedProject.activeTasks = project[1].activeTasks.map(task => 
-                new Task(task));
-            hydratedProject.completedTasks = project[1].completedTasks.map(task => new Task(task));
-            return [hydratedProject.id, hydratedProject];
-        }));
+                const hydratedProject = new Project(project[1]);
+                hydratedProject.activeTasks = project[1].activeTasks.map(task =>
+                    new Task(task));
+                hydratedProject.completedTasks = project[1].completedTasks.map(task => new Task(task));
+                return [hydratedProject.id, hydratedProject];
+            }));
         this.users = Object.fromEntries(
-            Object.entries(this.users).map( user => {
+            Object.entries(this.users).map(user => {
                 const hydratedUser = new User(user[1]);
                 return [hydratedUser.id, hydratedUser];
             })
@@ -53,7 +52,7 @@ export class StateManager {
     }
 
     #isProjectExist(title) {
-        return Object.values(this.projects).some(project => 
+        return Object.values(this.projects).some(project =>
             project.title === title);
     }
 
@@ -61,15 +60,14 @@ export class StateManager {
         this.users[user.id] = user;
     }
 
-    addProject = ({title, color, activeTasks, completedTasks, id}) => {
+    addProject = ({ title, color, activeTasks, completedTasks, id }) => {
         if (this.#isProjectExist(title)) {
             return;
         }
 
-        const newProject = new Project({ 
-            title, color, activeTasks, completedTasks, id 
+        const newProject = new Project({
+            title, color, activeTasks, completedTasks, id
         });
-        console.log(newProject)
         this.projects[newProject.id] = newProject;
         this.#notify();
     }
@@ -93,7 +91,7 @@ export class StateManager {
     }
 
     removeProject = (projectId) => {
-        
+
         delete this.projects[projectId];
         this.#notify();
     }

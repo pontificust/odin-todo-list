@@ -59,7 +59,6 @@ export class RenderManger {
         const { currentProjectId, currentTasksArr, activeFilter, activeSort } = this.stateManager.uiState;
         const project = this.stateManager.projects[currentProjectId];
         let tasks = [...project[currentTasksArr]];
-        console.log(activeFilter)
 
         if (activeFilter !== 'filterOff') {
             tasks = tasks.filter(task => {
@@ -81,7 +80,7 @@ export class RenderManger {
                 if (activeSort === 'reverse') {
                     return new Date(task2.dueDate).getTime() - new Date(task1.dueDate).getTime();
                 }
-                return task1.getXP() - task2.getXP() ;
+                return task1.getXP() - task2.getXP();
             })
         }
 
@@ -97,6 +96,7 @@ export class RenderManger {
         document.startViewTransition(() => {
             callback();
         });
+
     }
 
     #createTaskElement(taskData) {
@@ -216,7 +216,7 @@ export class RenderManger {
 
     showPopup = (type) => {
         const popupOverlay = document.querySelector(type);
-        const popupInputs = popupOverlay.querySelectorAll('.popup__input');
+        const popupInputs = popupOverlay.querySelectorAll('input');
 
         popupInputs.forEach(input => input.required = true);
         popupOverlay.classList.remove('close');
@@ -249,8 +249,8 @@ export class RenderManger {
     }
 
     openTab = (tabType) => {
-        this.ui.tabs.forEach(tab => tab.classList.remove('active'));
-        document.querySelector(`[data-tab-type=${tabType}]`).classList.add('active');
+        this.ui.tabs.forEach(tab => tab.checked = false);
+        document.querySelector(`[data-tab-type=${tabType}]`).checked = true;
         this.#updateTasksArr(tabType);
 
         this.#hideAddTaskBtn(tabType);

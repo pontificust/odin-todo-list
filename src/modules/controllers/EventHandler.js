@@ -40,7 +40,6 @@ export class EventHandler {
             },
             'openProject': (e) => {
                 let { currentProjectId } = stateManager.uiState;
-                console.log(stateManager.uiState.currentProjectId)
                 const prevProjectCard = document.querySelector(`[data-id="${currentProjectId}"]`);
                 prevProjectCard.classList.remove('active');
 
@@ -89,7 +88,6 @@ export class EventHandler {
                 const filterName = e.target.value;
 
                 stateManager.setUIState('activeFilter', filterName);
-                console.log(stateManager.uiState)
                 renderManager.renderTasks();
             },
             'sort': (e) => {

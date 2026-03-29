@@ -18,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const user = new User({
         name: 'Courier',
         totalXP: 0,
-        level: 1, 
+        level: 1,
         rank: 'novice',
         id: 'defaultUser',
     });
@@ -26,8 +26,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // 1. Load data form the localStorage
     if (storageManager.isEmpty()) {
         stateManager.addUser(user);
-        projects.forEach( project => {
-            console.log(project)
+        projects.forEach(project => {
             stateManager.addProject(project)
 
         });
@@ -73,7 +72,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('input', (e) => {
         if (
-            e.target.id === 'color' || 
+            e.target.id === 'color' ||
             e.target.id === 'filter' ||
             e.target.id === 'sort' ||
             e.target.dataset.id === 'openTab'

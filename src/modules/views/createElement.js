@@ -1,10 +1,10 @@
 export const createElement = ({ tag, content, attributes }) => {
     const svgNS = "http://www.w3.org/2000/svg";
     const isSvg = ['svg', 'path', 'circle', 'rect', 'line'].includes(tag);
-    
+
     const element = isSvg ? document.createElementNS(svgNS, tag) :
-    document.createElement(tag);
-    if(attributes && attributes.className){
+        document.createElement(tag);
+    if (attributes && attributes.className) {
         element.classList.add(...attributes.className.split(' '));
     }
     if (content) {

@@ -96,7 +96,6 @@ export class RenderManger {
         document.startViewTransition(() => {
             callback();
         });
-
     }
 
     #createTaskElement(taskData) {
@@ -242,9 +241,9 @@ export class RenderManger {
 
     #hideAddTaskBtn = (tabType) => {
         if (tabType === 'openCompleted') {
-            this.ui.addTaskBtn.classList.add('hide');
+            this.ui.addTaskBtn.classList.add('disable');
         } else {
-            this.ui.addTaskBtn.classList.remove('hide');
+            this.ui.addTaskBtn.classList.remove('disable');
         }
     }
 

@@ -16,6 +16,7 @@ export class StateManager {
             currentTasksArr: 'activeTasks',
             activeFilter: 'filterOff',
             activeSort: 'sortOff',
+            transitionInProgress: false,
         }
     }
 

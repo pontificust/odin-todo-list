@@ -67,18 +67,19 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('updateStorage', (e) => {
-        renderManager.safeTransition(() => eventHandler.updateStorage(stateManager.projects, stateManager.users));
+        eventHandler.updateStorage(stateManager.projects, stateManager.users);
     });
 
     document.addEventListener('input', (e) => {
         if (
-            e.target.id === 'color' ||
             e.target.id === 'filter' ||
             e.target.id === 'sort' ||
             e.target.dataset.id === 'openTab'
         ) {
             const id = e.target.dataset.id || e.target.id;
             renderManager.safeTransition(() => eventHandler.input[id](e));
+        } else if( e.target.id === 'color') {
+            eventHandler.input[e.target.id](e);            
         }
     });
 });

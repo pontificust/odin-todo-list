@@ -517,7 +517,7 @@ body {
     width: 100%;
     height: 100vh;
     display: grid;
-    grid-template-rows: max-content auto;
+    grid-template-rows: max-content auto max-content;
     gap: 50px;
     background-color: var(--body-background-color);
     font-family: 'IBM Plex Mono reg', sans-serif;
@@ -1141,6 +1141,11 @@ option {
     display: none;
 }
 
+.disable {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 .complete {
     opacity: 0.5;
 }
@@ -1161,3 +1166,20 @@ option {
 }
 
 /* main styles end */
+
+/* footer styles start */
+
+.footer {
+    display: flex;
+    justify-content: center;
+    background-color: var(--section-background-color);
+    align-items: center;
+    padding: 5px;
+}
+
+.footer a {
+    display: flex;
+    align-items: center;
+}
+
+/* footer styles end */

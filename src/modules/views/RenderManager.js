@@ -108,11 +108,11 @@ export class RenderManger {
             taskXp,
             tasksWrapper } = this.#parseTaskStructure();
 
-        taskName.textContent = taskData.title;
+        taskName.textContent = `${taskData.title}`;
         taskPriority.textContent = `[${taskData.priority}]`;
         taskPriority.classList.add(`${taskData.priority}`);
-        taskDate.textContent = `due ${taskData.dueDate}`;
-        taskXp.textContent = `+ ${taskData.getXP()} xp`;
+        taskDate.textContent = `due: ${taskData.dueDate}`;
+        taskXp.textContent = `REWARD: + ${taskData.getXP()} xp`;
         tasksWrapper.classList.add(`${taskData.priority}`);
         task.dataset.id = taskData.id;
 

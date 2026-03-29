@@ -491,7 +491,7 @@ html {
     scroll-behavior: smooth;
     box-sizing: border-box;
     scrollbar-gutter: stable both-edges;
-    scrollbar-color: var(--primary-amber-color) transparent; 
+    scrollbar-color: var(--primary-amber-color) transparent;
     scrollbar-width: thin;
 }
 
@@ -521,7 +521,7 @@ body {
     gap: 50px;
     background-color: var(--body-background-color);
     font-family: 'IBM Plex Mono reg', sans-serif;
-    font-size: clamp(1.6rem, 2.5vw, 3rem);
+    font-size: clamp(1.6rem, 1.5vw, 3rem);
     color: var(--secondary-text-color);
 }
 
@@ -550,7 +550,7 @@ header {
     text-transform: capitalize;
 }
 
-.header__title{
+.header__title {
     font-size: clamp(3rem, 5vw, 5.5rem);
     color: var(--primary-amber-color);
     text-shadow: 0px 0px 10px var(--shadow-color);
@@ -602,16 +602,12 @@ header {
 
 .main {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 6fr;
     gap: 50px;
     padding: 0 clamp(20px, 3vw, 50px);
 }
 
-@media screen and (max-width: 1200px) {
-    .main {
-        grid-template-columns: 1fr;
-    }
-}
+
 
 /* aside styles start */
 
@@ -659,6 +655,7 @@ header {
 .aside__menu-project.active {
     box-shadow: 0 0 20px var(--primary-amber-color);
 }
+
 .aside__menu-icon {
     width: 35px;
     height: 35px;
@@ -704,7 +701,7 @@ header {
     right: 0;
 }
 
-.aside__menu-project:hover .aside__menu-btn-close{
+.aside__menu-project:hover .aside__menu-btn-close {
     opacity: 0.7;
 }
 
@@ -718,7 +715,7 @@ header {
     color: var(--primary-amber-color);
     text-shadow: 0 0 5px var(--primary-amber-color);
     box-shadow: 0 0 10px var(--primary-amber-color),
-    0 10px 0 #ffb88050;
+        0 10px 0 #ffb88050;
     align-self: center;
     padding: 10px;
     border-radius: 20px;
@@ -736,7 +733,7 @@ header {
 .tasks {
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 30px;
     padding: clamp(15px, 3vw, 30px);
     background-color: var(--section-background-color);
     border: var(--border);
@@ -747,11 +744,11 @@ header {
     color: var(--primary-amber-color);
     text-shadow: 0 0 5px var(--primary-amber-color);
     text-transform: uppercase;
-    
+
 }
 
 .tasks__sector-title {
-    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-size: clamp(3rem, 3vw, 3rem);
     font-family: 'IBM Plex Mono bold', sans-serif;
     align-self: center;
     overflow-wrap: anywhere;
@@ -761,7 +758,8 @@ header {
 
 .tasks__tabs {
     display: flex;
-    gap: 30px;
+    border-radius: 20px;
+    outline: 5px solid #2D3748;
 }
 
 .tasks__tab {
@@ -769,22 +767,26 @@ header {
     background-color: transparent;
     color: #2D3748;
     border: none;
-    outline: 5px solid #2D3748;
-    border-radius: 20px;
-    font-size: clamp(2rem, 5vw, 5.5rem);
-    padding: 20px;
+    font-size: clamp(2rem, 3vw, 3rem);
+    padding: 10px;
+    border: none;
     transition: all .4s;
     cursor: pointer;
     font-family: 'IBM Plex Mono bold', sans-serif;
+    border-radius: 0 20px 20px 0;
+}
+
+.tasks__tab:nth-of-type(1) {
+    border-radius: 20px 0 0 20px;
 }
 
 .tasks__tab:hover,
 .tasks__tab:focus,
 .tasks__tab.active {
     color: var(--primary-amber-color);
-    outline-color: var(--primary-amber-color);
+    /* outline-color: var(--primary-amber-color); */
     text-shadow: 0 0 5px var(--primary-amber-color);
-    box-shadow: 0 0 10px var(--primary-amber-color);
+    /* box-shadow: 0 0 10px var(--primary-amber-color); */
 }
 
 .tasks__cards {
@@ -797,22 +799,25 @@ header {
 .tasks__card {
     display: grid;
     grid-template-columns: 6fr 1fr;
-    gap: 30px;
+    gap: 20px;
     background-color: #2D3748;
     padding: 30px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .tasks__card-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 30px;    
+    gap: 5px;
 }
 
 .tasks__card-row {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 30px;
     padding-left: 30px;
 }
 
@@ -820,14 +825,16 @@ header {
     color: var(--primary-amber-color);
     font-family: 'IBM Plex Mono bold', sans-serif;
     text-transform: capitalize;
-    font-size: clamp(2rem, 3vw, 4rem);
+    font-size: clamp(2rem, 2.5vw, 4rem);
     text-shadow: 0 0 5px var(--primary-amber-color);
 }
 
 .tasks__priority {
+    width: max(110px, 30%);
+    text-align: center;
     background-color: var(--status-red-color);
     color: #fff;
-    padding: 5px 10px;
+    padding: 5px 0;
     border-radius: 20px;
     text-transform: uppercase;
 }
@@ -838,16 +845,14 @@ header {
 
 .tasks__card-btns {
     display: flex;
-    flex-direction: column;
     gap: 15px;
-    margin-left: auto;
-    align-self: center;
 }
 
 .tasks__card-btn {
-    width: clamp(5rem, 7vw, 7rem);
+    width: clamp(3rem, 5vw, 5rem);
     aspect-ratio: 7 / 6;
     background-position: center;
+    align-self: center;
 }
 
 .tasks__card-btn[data-id="completeTask"] {
@@ -869,7 +874,7 @@ header {
 .tasks__btn {
     background-color: var(--primary-amber-color);
     box-shadow: 0 0 10px var(--primary-amber-color),
-    0 10px 0 #ffb88050;
+        0 10px 0 #ffb88050;
     padding: 10px 20px;
     border-radius: 20px;
     align-self: center;
@@ -888,6 +893,7 @@ header {
 
 .tasks__priority.critical {
     background-color: var(--status-red-color);
+    border: none;
 }
 
 .tasks__priority.moderate {
@@ -1034,10 +1040,10 @@ option {
     background-color: var(--primary-amber-color);
     color: var(--body-background-color);
     box-shadow: 0px 10px 0 #ffb88050,
-    0 0 10px var(--primary-amber-color);
+        0 0 10px var(--primary-amber-color);
 }
 
-.popup__btn:nth-of-type(1):hover{
+.popup__btn:nth-of-type(1):hover {
     box-shadow: 0 0 10px var(--primary-amber-color);
 }
 
@@ -1045,10 +1051,10 @@ option {
     background-color: #5e6360;
     color: var(--primary-amber-color);
     box-shadow: 0px 10px 0 #57515180,
-    0 0 10px #575151;
+        0 0 10px #575151;
 }
 
-.popup__btn:nth-of-type(2):hover{
+.popup__btn:nth-of-type(2):hover {
     box-shadow: 0 0 10px #575151;
 }
 
@@ -1095,5 +1101,15 @@ option {
     opacity: 0.5;
 }
 
+
+@media screen and (max-width: 1200px) {
+    .main {
+        grid-template-columns: 1fr;
+    }
+
+    .tasks__card-btns {
+        flex-wrap: wrap;
+    }
+}
 
 /* main styles end */

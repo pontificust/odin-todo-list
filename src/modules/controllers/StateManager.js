@@ -11,12 +11,16 @@ export class StateManager {
         this.users = {};
 
         this.uiState = {
-            currentUserId: 'default',
-            currentProjectId: 'default',
+            currentUserId: 'defaultUser',
+            currentProjectId: 'defaultProject',
             currentTasksArr: 'activeTasks',
             activeFilter: 'filterOff',
             activeSort: 'sortOff',
         }
+    }
+
+    setUIState(key, value) {
+        this.uiState[key] = value;
     }
     
     #notify( detail = null) {
@@ -65,7 +69,7 @@ export class StateManager {
         const newProject = new Project({ 
             title, color, activeTasks, completedTasks, id 
         });
-        console.log(completedTasks)
+        console.log(newProject)
         this.projects[newProject.id] = newProject;
         this.#notify();
     }

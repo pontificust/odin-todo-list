@@ -56,29 +56,29 @@ export class RenderManger {
     }
 
     #getProcessedTasks() {
-        const {currentProjectId, currentTasksArr} = this.stateManager.uiState;
+        const { currentProjectId, currentTasksArr, activeFilter, activeSort } = this.stateManager.uiState;
         const project = this.stateManager.projects[currentProjectId];
         let tasks = [...project[currentTasksArr]];
-        const { activeFilter, activeSort } = this.stateManager.uiState;
+        console.log(activeFilter)
 
         if (activeFilter !== 'filterOff') {
             tasks = tasks.filter(task => {
-                if (this.activeFilter === 'overdue') {
+                if (activeFilter === 'overdue') {
                     return new Date(task.dueDate) < new Date().setHours(0, 0, 0, 0);
                 }
-                if (this.activeFilter === 'upcoming') {
+                if (activeFilter === 'upcoming') {
                     return new Date(task.dueDate) > new Date().setHours(0, 0, 0, 0);
                 }
-                return task.priority === this.activeFilter;
+                return task.priority === activeFilter;
             })
         }
 
         if (activeSort !== 'sortOff') {
             tasks.sort((task1, task2) => {
-                if (this.activeSort === 'chronological') {
+                if (activeSort === 'chronological') {
                     return new Date(task1.dueDate).getTime() - new Date(task2.dueDate).getTime();
                 }
-                if (this.activeSort === 'reverse') {
+                if (activeSort === 'reverse') {
                     return new Date(task2.dueDate).getTime() - new Date(task1.dueDate).getTime();
                 }
                 return task1.getXP() - task2.getXP() ;
@@ -174,7 +174,6 @@ export class RenderManger {
         const projects = Object.entries(this.stateManager.projects);
 
         projects.forEach(project => {
-            console.log(project)
             fragment.appendChild(this.#createProjectElement(project));
         });
         this.projectsContainer.replaceChildren(fragment);
@@ -236,9 +235,9 @@ export class RenderManger {
     }
 
     #updateTasksArr(tabName) {
-        const { currentTasksArr } = this.stateManager.uiState;
-        currentTasksArr = tabName === 'openActive' ? 'activeTasks' :
+        const newTaskArr = tabName === 'openActive' ? 'activeTasks' :
             'completedTasks';
+        this.stateManager.setUIState('currentTasksArr', newTaskArr);
     }
 
     #hideAddTaskBtn = (tabType) => {

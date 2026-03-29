@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
         totalXP: 0,
         level: 1, 
         rank: 'novice',
-        id: 'default',
+        id: 'defaultUser',
     });
 
     // 1. Load data form the localStorage
@@ -68,8 +68,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('updateStorage', (e) => {
-        console.log(e.detail)
-        renderManager.safeTransition(() => eventHandler.updateStorage(e, stateManager.projects, stateManager.users));
+        renderManager.safeTransition(() => eventHandler.updateStorage(stateManager.projects, stateManager.users));
     });
 
     document.addEventListener('input', (e) => {

@@ -33,7 +33,7 @@ export const projects = [
         color: '#696969',
         activeTasks: [tasks[1], tasks[2]],
         completedTasks: [tasks[3], tasks[0]],
-        id: 'default',
+        id: 'defaultProject',
     },
     {
         title: 'Work',

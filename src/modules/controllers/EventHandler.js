@@ -20,8 +20,8 @@ export class EventHandler {
             'closeTask': (e) => {
                 const taskCard = e.target.closest('.tasks__card');
                 const taskId = taskCard.dataset.id;
-                const projectId = renderManager.currentProjectId;
-                const taskType = renderManager.currentTasksArr;
+                const projectId = stateManager.uiState.currentProjectId;
+                const taskType = stateManager.uiState.currentTasksArr;
 
                 stateManager.removeTask(taskId, projectId, taskType);
 
@@ -31,19 +31,22 @@ export class EventHandler {
                 const projectCard = e.target.closest('.aside__menu-project');
                 const projectId = projectCard.dataset.id;
 
-                if ('default' === projectId) {
+                if ('defaultProject' === projectId) {
                     return;
                 }
-                renderManager.currentProjectId = 'default';
+                stateManager.setUIState('currentProjectId', 'defaultProject');
                 stateManager.removeProject(projectId);
                 renderManager.animateCardRemoval(projectCard, 'hide');
             },
             'openProject': (e) => {
-                const prevProjectCard = document.querySelector(`[data-id="${renderManager.currentProjectId}"]`);
+                let { currentProjectId } = stateManager.uiState;
+                console.log(stateManager.uiState.currentProjectId)
+                const prevProjectCard = document.querySelector(`[data-id="${currentProjectId}"]`);
                 prevProjectCard.classList.remove('active');
 
-                renderManager.currentProjectId = e.target.closest('li').dataset.id;
-                const projectCard = document.querySelector(`[data-id="${renderManager.currentProjectId}"]`);
+                currentProjectId = e.target.closest('li').dataset.id;
+                stateManager.setUIState('currentProjectId', currentProjectId);
+                const projectCard = document.querySelector(`[data-id="${currentProjectId}"]`);
                 projectCard.classList.add('active');
 
                 renderManager.openTab('openActive');
@@ -56,8 +59,8 @@ export class EventHandler {
             'completeTask': (e) => {
                 const taskCard = e.target.closest('.tasks__card');
                 const taskId = taskCard.dataset.id;
-                const projectId = renderManager.currentProjectId;
-                const userId = renderManager.currentUserId;
+                const projectId = stateManager.uiState.currentProjectId;
+                const userId = stateManager.uiState.currentUserId;
 
                 stateManager.completeTask(taskId, projectId, userId);
                 taskCard.remove();
@@ -67,14 +70,17 @@ export class EventHandler {
         this.submit = {
             'project': (e) => {
                 const projectData = getFormData(e);
+                const popupOverlay = e.target.closest('.overlay');
+
                 stateManager.addProject(projectData);
-                renderManager.closePopup(e);
+                renderManager.hidePopup(popupOverlay);
             },
             'task': (e) => {
                 const taskData = getFormData(e);
+                const popupOverlay = e.target.closest('.overlay');
 
-                stateManager.addTask(taskData, renderManager.currentProjectId);
-                renderManager.closePopup(e);
+                stateManager.addTask(taskData, stateManager.uiState.currentProjectId);
+                renderManager.hidePopup(popupOverlay);
             },
         };
         this.input = {
@@ -87,13 +93,14 @@ export class EventHandler {
             'filter': (e) => {
                 const filterName = e.target.value;
 
-                renderManager.activeFilter = filterName;
+                stateManager.setUIState('activeFilter', filterName);
+                console.log(stateManager.uiState)
                 renderManager.renderTasks();
             },
             'sort': (e) => {
                 const sortName = e.target.value;
 
-                renderManager.activeSort = sortName;
+                stateManager.setUIState('activeSort', sortName);
                 renderManager.renderTasks();
             },
         };

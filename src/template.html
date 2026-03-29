@@ -32,7 +32,8 @@
                 <ul class="aside__menu-projects">
                 </ul>
             </nav>
-            <button class="aside__button button" data-id="openPopup" data-popup-type="project">[Initialize new sector]</button>
+            <button class="aside__button button" data-id="openPopup" data-popup-type="project">[Initialize new
+                sector]</button>
         </aside>
         <section class="tasks">
             <h2 class="tasks__title">Objectives</h2>
@@ -62,13 +63,19 @@
                 </div>
             </div>
             <div class="tasks__tabs">
-                <button class="tasks__tab active" data-id="openTab" data-tab-type="openActive">Active</button>
-                <button class="tasks__tab" data-id="openTab" data-tab-type="openCompleted">Completed</button>
+                <input checked type="radio" id="tab-active" name="task-status" class="tasks__tab-input" data-id="openTab"
+                    data-tab-type="openActive">
+                <label for="tab-active" class="tasks__tab-label">Active</label>
+                <input type="radio" id="tab-completed" name="task-status" class="tasks__tab-input" data-id="openTab"
+                    data-tab-type="openCompleted">
+                <label for="tab-completed" class="tasks__tab-label">Completed</label>
+                <div class="tasks__tab-slider"></div>
             </div>
             <ul class="tasks__cards">
 
             </ul>
-            <button class="tasks__btn button" data-id="openPopup" data-popup-type="task">[initialize new objective]</button>
+            <button class="tasks__btn button" data-id="openPopup" data-popup-type="task">[initialize new
+                objective]</button>
         </section>
     </main>
     <div class="overlay close" id="task">

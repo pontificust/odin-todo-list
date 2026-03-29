@@ -51,11 +51,6 @@ export class EventHandler {
 
                 renderManager.openTab('openActive');
             },
-            'openTab': (e) => {
-                const tabType = e.target.dataset.tabType;
-
-                renderManager.openTab(tabType);
-            },
             'completeTask': (e) => {
                 const taskCard = e.target.closest('.tasks__card');
                 const taskId = taskCard.dataset.id;
@@ -102,6 +97,11 @@ export class EventHandler {
 
                 stateManager.setUIState('activeSort', sortName);
                 renderManager.renderTasks();
+            },
+            'openTab': (e) => {
+                const tabType = e.target.dataset.tabType;
+
+                renderManager.openTab(tabType);
             },
         };
         this.updateStorage = (projects, users) => {

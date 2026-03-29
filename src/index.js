@@ -73,12 +73,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('input', (e) => {
         if (
-            e.target.id === "color" || 
+            e.target.id === 'color' || 
             e.target.id === 'filter' ||
-            e.target.id === 'sort'
+            e.target.id === 'sort' ||
+            e.target.dataset.id === 'openTab'
         ) {
-            console.log(e.target.id)
-            renderManager.safeTransition(() => eventHandler.input[e.target.id](e));
+            const id = e.target.dataset.id || e.target.id;
+            renderManager.safeTransition(() => eventHandler.input[id](e));
         }
     });
 });

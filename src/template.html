@@ -1,116 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List</title>
-    <link rel="icon" type="image/png" href="./assets/img/favicon-96x96.png" sizes="96x96" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./assets/img/favicon-96x96.png"
+      sizes="96x96"
+    />
     <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg" />
     <link rel="shortcut icon" href="./assets/img/favicon.ico" />
-</head>
+  </head>
 
-<body>
+  <body>
     <header class="header">
-        <section class="header__logo">
-            <p class="header__title-upper">Subject</p>
-            <h1 class="header__title">The Survival Log</h1>
-            <p class="header__title-beneath">Glutton Settlement System</p>
-        </section>
-        <section class="header__user">
-            <p class="header__user-info">Rank: <span data-id="rank">novice</span></p>
-            <p class="header__user-info">Total XP: <span data-id="xp">0</span></p>
-            <div class="header__user-level">
-                <p class="header__user-info">Level: <span data-id="level">0</span></p>
-                <div class="header__user-progress">
-                    <div class="header__user-bar"></div>
-                </div>
-            </div>
-        </section>
+      <section class="header__logo">
+        <p class="header__title-upper">Subject</p>
+        <h1 class="header__title">The Survival Log</h1>
+        <p class="header__title-beneath">Glutton Settlement System</p>
+      </section>
+      <section class="header__user">
+        <p class="header__user-info">
+          Rank: <span data-id="rank">novice</span>
+        </p>
+        <p class="header__user-info">Total XP: <span data-id="xp">0</span></p>
+        <div class="header__user-level">
+          <p class="header__user-info">Level: <span data-id="level">0</span></p>
+          <div class="header__user-progress">
+            <div class="header__user-bar"></div>
+          </div>
+        </div>
+      </section>
     </header>
     <main class="main">
-        <aside class="aside">
-            <h2 class="aside__title">Sectors</h2>
-            <nav class="aside__menu">
-                <ul class="aside__menu-projects">
-                </ul>
-            </nav>
-            <button class="aside__button button" data-id="openPopup" data-popup-type="project">[Initialize new
-                sector]</button>
-        </aside>
-        <section class="tasks">
-            <h2 class="tasks__title">Objectives</h2>
-            <h2 class="tasks__sector-title">Objectives</h2>
-            <div class="tasks__fields-wrapper">
-                <div class="tasks__field">
-                    <label class="popup__label" for="filter">Filter</label>
-                    <div class="tasks__select-wrapper">
-                        <select class="popup__input" name="filter" id="filter" data-id="filter" required>
-                            <option value="filterOff" selected></option>
-                            <option value="critical">Critical</option>
-                            <option value="moderate">Moderate</option>
-                            <option value="low">Low</option>
-                            <option value="upcoming">Upcoming</option>
-                            <option value="overdue">Overdue</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="tasks__field">
-                    <label class="popup__label" for="sort">Sort</label>
-                    <div class="tasks__select-wrapper">
-                        <select class="popup__input" name="sort" id="sort" data-id="sort" required>
-                            <option value="sortOff" selected></option>
-                            <option value="priority">priority</option>
-                            <option value="chronological">chronological</option>
-                            <option value="reverse">reverse chronological</option>
-                        </select>
-                    </div>
-                </div>
+      <aside class="aside">
+        <h2 class="aside__title">Sectors</h2>
+        <nav class="aside__menu">
+          <ul class="aside__menu-projects"></ul>
+        </nav>
+        <button
+          class="aside__button button"
+          data-id="openPopup"
+          data-popup-type="project"
+        >
+          [Initialize new sector]
+        </button>
+      </aside>
+      <section class="tasks">
+        <h2 class="tasks__title">Objectives</h2>
+        <h2 class="tasks__sector-title">Objectives</h2>
+        <div class="tasks__fields-wrapper">
+          <div class="tasks__field">
+            <label class="popup__label" for="filter">Filter</label>
+            <div class="tasks__select-wrapper">
+              <select
+                class="popup__input"
+                name="filter"
+                id="filter"
+                data-id="filter"
+                required
+              >
+                <option value="filterOff" selected></option>
+                <option value="critical">Critical</option>
+                <option value="moderate">Moderate</option>
+                <option value="low">Low</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="overdue">Overdue</option>
+              </select>
             </div>
-            <div class="tasks__tabs">
-                <input checked type="radio" id="tab-active" name="task-status" class="tasks__tab-input"
-                    data-id="openTab" data-tab-type="openActive">
-                <label for="tab-active" class="tasks__tab-label">Active</label>
-                <input type="radio" id="tab-completed" name="task-status" class="tasks__tab-input" data-id="openTab"
-                    data-tab-type="openCompleted">
-                <label for="tab-completed" class="tasks__tab-label">Completed</label>
-                <div class="tasks__tab-slider"></div>
+          </div>
+          <div class="tasks__field">
+            <label class="popup__label" for="sort">Sort</label>
+            <div class="tasks__select-wrapper">
+              <select
+                class="popup__input"
+                name="sort"
+                id="sort"
+                data-id="sort"
+                required
+              >
+                <option value="sortOff" selected></option>
+                <option value="priority">priority</option>
+                <option value="chronological">chronological</option>
+                <option value="reverse">reverse chronological</option>
+              </select>
             </div>
-            <ul class="tasks__cards">
-
-            </ul>
-            <button class="tasks__btn button" data-id="openPopup" data-popup-type="task">[initialize new
-                objective]</button>
-        </section>
+          </div>
+        </div>
+        <div class="tasks__tabs">
+          <input
+            checked
+            type="radio"
+            id="tab-active"
+            name="task-status"
+            class="tasks__tab-input"
+            data-id="openTab"
+            data-tab-type="openActive"
+          />
+          <label for="tab-active" class="tasks__tab-label">Active</label>
+          <input
+            type="radio"
+            id="tab-completed"
+            name="task-status"
+            class="tasks__tab-input"
+            data-id="openTab"
+            data-tab-type="openCompleted"
+          />
+          <label for="tab-completed" class="tasks__tab-label">Completed</label>
+          <div class="tasks__tab-slider"></div>
+        </div>
+        <ul class="tasks__cards"></ul>
+        <button
+          class="tasks__btn button"
+          data-id="openPopup"
+          data-popup-type="task"
+        >
+          [initialize new objective]
+        </button>
+      </section>
     </main>
     <div class="overlay close" id="task" data-id="closePopup">
-        <div class="popup__container"></div>
+      <div class="popup__container"></div>
     </div>
     <div class="overlay close" id="project" data-id="closePopup">
-        <div class="popup__container">
-            <form action="#" class="popup" data-id="project">
-                <h2 class="popup__title">>>system input: new sector</h2>
-                <div class="popup__field">
-                    <label for="title" class="popup__label">sector label *</label>
-                    <input id="title" name="title" type="text" maxlength="120" class="popup__input" required>
-                </div>
-                <div class="popup__field">
-                    <label for="color" class="popup__label">objective color *</label>
-                    <input type="color" id="color" name="color" class="popup__input" required>
-                    <output class="popup__output" name="color" for="color">Your color</output>
-                </div>
-                <div class="popup__btns">
-                    <button type="submit" class="popup__btn button">[execute]</button>
-                    <button type="button" class="popup__btn button" data-id="closePopup">[abort]</button>
-                </div>
-            </form>
-        </div>
+      <div class="popup__container">
+        <form action="#" class="popup" data-id="project">
+          <h2 class="popup__title">>>system input: new sector</h2>
+          <div class="popup__field">
+            <label for="title" class="popup__label">sector label *</label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              maxlength="120"
+              class="popup__input"
+              required
+            />
+          </div>
+          <div class="popup__field">
+            <label for="color" class="popup__label">objective color *</label>
+            <input
+              type="color"
+              id="color"
+              name="color"
+              class="popup__input"
+              required
+            />
+            <output class="popup__output" name="color" for="color"
+              >Your color</output
+            >
+          </div>
+          <div class="popup__btns">
+            <button type="submit" class="popup__btn button">[execute]</button>
+            <button
+              type="button"
+              class="popup__btn button"
+              data-id="closePopup"
+            >
+              [abort]
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
     <footer class="footer">
-        <a target="_blank" rel="noreferrer" href="https://github.com/pontificust" class="footer__link">
-            <img src="assets/img/github.svg" width="80" alt="" class="footer__link-img">
-        </a>
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://github.com/pontificust"
+        class="footer__link"
+      >
+        <img
+          src="assets/img/github.svg"
+          width="80"
+          alt=""
+          class="footer__link-img"
+        />
+      </a>
     </footer>
-</body>
-
+  </body>
 </html>

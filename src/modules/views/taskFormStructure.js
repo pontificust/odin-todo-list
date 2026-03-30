@@ -32,31 +32,34 @@ export const taskFormStructure = new Element('form', [
                 className: 'popup__input',
                 required: 'true',
             }),
-        ], { className: 'popup__date-wrapper'})], { className: 'popup__field'}),
-        new Element('div', [
+        ], { className: 'popup__date-wrapper' })], { className: 'popup__field' }),
+    new Element('div', [
         new Element('label', 'threat level *', { className: 'popup__label', for: 'priority' }),
         new Element('div', [
             new Element('select', [
-                new Element('option', 'Critical', { value: 'critical'}),
-                new Element('option', 'Moderate', { value: 'moderate', selected: 'true'}),
-                new Element('option', 'Low', { value: 'low'}),
+                new Element('option', 'Critical', { value: 'critical' }),
+                new Element('option', 'Moderate', { value: 'moderate', selected: 'true' }),
+                new Element('option', 'Low', { value: 'low' }),
             ], {
                 id: 'priority',
                 name: 'priority',
                 className: 'popup__input',
                 required: 'true',
             }),
-        ], { className: 'popup__select-wrapper'}),
+        ], { className: 'popup__select-wrapper' }),
     ], { className: 'popup__field' }),
     new Element('div', [
-        new Element('button', '[execute]', { 
+        new Element('button', '[execute]', {
             className: 'popup__btn button',
             type: 'submit'
         }),
-        new Element('button', '[abort]', { className: 'popup__btn button', type: 'button'})
-    ], { 
+        new Element('button', '[abort]', {
+            className: 'popup__btn button',
+            type: 'button',
+            'data-id': 'closePopup'
+        })
+    ], {
         className: 'popup__btns',
         type: 'button',
-        'data-id': 'closePopup',
     }),
 ], { className: 'popup', action: '#' });

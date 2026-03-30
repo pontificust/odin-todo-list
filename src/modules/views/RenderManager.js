@@ -158,7 +158,7 @@ export class RenderManger {
     #createFormElement(formId, taskId = null) {
         const form = createElement(this.taskFormStructure);
         form.dataset.id = formId;
-        if(taskId) {
+        if (taskId) {
             form.dataset.taskId = taskId;
         }
         return form;

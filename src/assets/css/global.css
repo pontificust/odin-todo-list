@@ -1047,7 +1047,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-image: url('../img/calendar.svg');
     width: 30px;
     height: 30px;
-    top: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     right: 10px;
     pointer-events: none;
 }
@@ -1060,7 +1061,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     content: '▼';
     font-size: 3rem;
     position: absolute;
-    top: 8px;
+    top: 50%;
+    transform: translateY(-50%);
     right: 10px;
     pointer-events: none;
 }

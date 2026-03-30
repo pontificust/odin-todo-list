@@ -56,7 +56,6 @@ window.addEventListener('DOMContentLoaded', () => {
     );
 
     document.addEventListener('click', (e) => {
-        console.log(e.target)
         if ((e.target.dataset.id && e.target.tagName === 'BUTTON') ||
             e.target.dataset.id === 'closePopup' || e.target.id === 'openPopup') {
             if (e.target.id === 'openPopup') {

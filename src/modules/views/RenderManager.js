@@ -8,13 +8,15 @@ export class RenderManger {
         projectsContainer,
         taskStructure,
         projectStructure,
-        stateManager
+        stateManager,
+        taskFormStructure,
 
     ) {
         this.tasksContainer = document.querySelector(tasksContainer);
         this.projectsContainer = document.querySelector(projectsContainer);
         this.taskStructure = taskStructure;
         this.projectStructure = projectStructure;
+        this.taskFormStructure = taskFormStructure;
         this.stateManager = stateManager;
         this.ui = {
             levelBar: document.querySelector('.header__user-bar'),
@@ -153,6 +155,21 @@ export class RenderManger {
         return projectCard;
     }
 
+    #createFormElement(formId, taskId = null) {
+        const form = createElement(this.taskFormStructure);
+        form.dataset.id = formId;
+        if(taskId) {
+            form.dataset.taskId = taskId;
+        }
+        return form;
+    }
+
+    renderForm = (popupContainer, formId = 'task', taskId = null) => {
+        const fragment = document.createDocumentFragment();
+        fragment.appendChild(this.#createFormElement(formId, taskId));
+        popupContainer.replaceChildren(fragment);
+    }
+
     renderTasks = () => {
 
         const { currentProjectId } = this.stateManager.uiState;
@@ -213,11 +230,31 @@ export class RenderManger {
         popupOverlay.classList.add('close');
     }
 
-    showPopup = (type) => {
-        const popupOverlay = document.querySelector(type);
-        const popupInputs = popupOverlay.querySelectorAll('input');
+    #prepopulatePopup(taskId) {
+        const { currentProjectId, currentTasksArr } = this.stateManager.uiState;
+        const tasks = this.stateManager.projects[currentProjectId][currentTasksArr];
+        const taskData = Object.entries(tasks.find(task => task.id === taskId));
 
-        popupInputs.forEach(input => input.required = true);
+        taskData.forEach(([key, value]) => {
+            if (key === 'dueDate') {
+                key = 'date';
+            } else if (key === 'id') {
+                return;
+            }
+            document.querySelector(`#${key}`).value = value;
+        });
+    }
+
+    showPopup = (type, taskId) => {
+        const popupOverlay = document.querySelector(type);
+        const popupContainer = popupOverlay.querySelector('.popup__container');
+        const formId = taskId ? 'taskEdit' : 'task';
+
+        this.renderForm(popupContainer, formId, taskId);
+        if (taskId) {
+            this.#prepopulatePopup(taskId);
+        }
+
         popupOverlay.classList.remove('close');
     }
 

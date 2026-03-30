@@ -90,6 +90,15 @@ export class StateManager {
         this.#notify();
     }
 
+    editTask = (taskData, currentProjectId, taskId) => {
+        const newTask = new Task(taskData);
+        const taskArray = this.projects[currentProjectId][this.uiState.currentTasksArr];
+
+        const idxToEdit = taskArray.findIndex(task => task.id === taskId);
+        taskArray[idxToEdit] = newTask;
+        this.#notify();
+    }
+
     removeTask = (taskId, currentProjectId, tabName) => {
         this.projects[currentProjectId].removeTask(taskId, tabName);
         this.#notify();

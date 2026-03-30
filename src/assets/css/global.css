@@ -843,6 +843,12 @@ header {
     padding: 30px;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
+    transition: all .4s;
+}
+
+.tasks__card:hover {
+    transform: scale(1.05);
 }
 
 .tasks__card-wrapper {
@@ -1154,10 +1160,6 @@ option {
 @media screen and (max-width: 1200px) {
     .main {
         grid-template-columns: 1fr;
-    }
-
-    .tasks__card-btns {
-        flex-wrap: wrap;
     }
 
     .aside__menu-name {

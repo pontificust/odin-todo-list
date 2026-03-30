@@ -1,6 +1,7 @@
 export { RenderManger } from "./views/RenderManager.js";
 export { taskStructure } from "./views/taskStructure.js";
 export { projectStructure } from "./views/projectStructure.js";
+export { taskFormStructure } from "./views/taskFormStructure.js";
 export { Project } from "./models/Project.js";
 export { EventHandler } from "./controllers/EventHandler.js";
 export { StateManager } from "./controllers/StateManager.js";

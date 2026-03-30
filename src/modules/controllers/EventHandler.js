@@ -12,10 +12,10 @@ export class EventHandler {
 
                 renderManager.hidePopup(popupOverlay);
             },
-            'openPopup': (e) => {
-                let popupType = `#${e.target.dataset.popupType}`;
+            'openPopup': (e, id) => {
+                let popupType = id ? '#task' : `#${e.target.dataset.popupType}`;
 
-                renderManager.showPopup(popupType);
+                renderManager.showPopup(popupType, id);
             },
             'closeTask': (e) => {
                 const taskCard = e.target.closest('.tasks__card');
@@ -74,6 +74,14 @@ export class EventHandler {
                 const popupOverlay = e.target.closest('.overlay');
 
                 stateManager.addTask(taskData, stateManager.uiState.currentProjectId);
+                renderManager.hidePopup(popupOverlay);
+            },
+            'taskEdit': (e) => {
+                const taskData = getFormData(e);
+                const popupOverlay = e.target.closest('.overlay');
+                const taskId = e.target.dataset.taskId;
+
+                stateManager.editTask(taskData, stateManager.uiState.currentProjectId, taskId);
                 renderManager.hidePopup(popupOverlay);
             },
         };

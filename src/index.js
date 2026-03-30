@@ -2,6 +2,7 @@ import {
     RenderManger,
     taskStructure,
     projectStructure,
+    taskFormStructure,
     StateManager,
     StorageManager,
     EventHandler,
@@ -42,6 +43,7 @@ window.addEventListener('DOMContentLoaded', () => {
         taskStructure,
         projectStructure,
         stateManager,
+        taskFormStructure
     );
 
     // 3. Show current stateManager.projects and tasks
@@ -54,8 +56,13 @@ window.addEventListener('DOMContentLoaded', () => {
     );
 
     document.addEventListener('click', (e) => {
-        if ((e.target.dataset.id && e.target.tagName === 'BUTTON') || 
-    e.target.dataset.id === 'closePopup') {
+        console.log(e.target)
+        if ((e.target.dataset.id && e.target.tagName === 'BUTTON') ||
+            e.target.dataset.id === 'closePopup' || e.target.id === 'openPopup') {
+            if (e.target.id === 'openPopup') {
+                renderManager.safeTransition(() => eventHandler.click[e.target.id](e, e.target.dataset.id));
+                return;
+            }
             renderManager.safeTransition(() => eventHandler.click[e.target.dataset.id](e));
         }
     });
@@ -67,7 +74,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.addEventListener('updateStorage', (e) => {
+    document.addEventListener('updateStorage', () => {
         eventHandler.updateStorage(stateManager.projects, stateManager.users);
     });
 
@@ -79,8 +86,8 @@ window.addEventListener('DOMContentLoaded', () => {
         ) {
             const id = e.target.dataset.id || e.target.id;
             renderManager.safeTransition(() => eventHandler.input[id](e));
-        } else if( e.target.id === 'color') {
-            eventHandler.input[e.target.id](e);            
+        } else if (e.target.id === 'color') {
+            eventHandler.input[e.target.id](e);
         }
     });
 });

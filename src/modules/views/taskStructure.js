@@ -15,4 +15,4 @@ export const taskStructure = new Element('li', [
         new Element('button', '', { className: 'tasks__card-btn button', 'data-id': "completeTask" }),
         new Element('button', '', { className: 'tasks__card-btn button', 'data-id': "closeTask" }),
     ], { className: 'tasks__card-btns' }),
-], { className: 'tasks__card' });
+], { className: 'tasks__card', id: 'openPopup' });

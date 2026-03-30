@@ -54,7 +54,8 @@ window.addEventListener('DOMContentLoaded', () => {
     );
 
     document.addEventListener('click', (e) => {
-        if (e.target.dataset.id && e.target.tagName === 'BUTTON') {
+        if ((e.target.dataset.id && e.target.tagName === 'BUTTON') || 
+    e.target.dataset.id === 'closePopup') {
             renderManager.safeTransition(() => eventHandler.click[e.target.dataset.id](e));
         }
     });

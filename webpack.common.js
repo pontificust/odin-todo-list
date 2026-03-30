@@ -22,7 +22,7 @@ export default {
                 use: ["style-loader", "css-loader"],
             },
             {
-                test: /\.(png|jpg|jpeg|svg|gif|cur)$/i,
+                test: /\.(png|jpg|jpeg|svg|gif|cur|ico)$/i,
                 type: "asset/resource",
             },
             {

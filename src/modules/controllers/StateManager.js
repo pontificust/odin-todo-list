@@ -18,6 +18,17 @@ export class StateManager {
             activeSort: 'sortOff',
             transitionInProgress: false,
         }
+
+        this.ranks = [
+            'DRIFTER',
+            'SCAVENGER',
+            'SCRAPPER',
+            'SURVIVOR',
+            'WASTELANDER',
+            'TRAILBLAZER',
+            'VETERAN',
+            'LEGEND'
+        ]
     }
 
     setUIState(key, value) {
@@ -87,7 +98,7 @@ export class StateManager {
     completeTask(taskId, currentProjectId, currentUserId) {
         const task = this.projects[currentProjectId].completeTask(taskId);
 
-        this.users[currentUserId].addXP(task.getXP());
+        this.users[currentUserId].addXP(task.getXP(), this.ranks);
         this.#notify();
     }
 

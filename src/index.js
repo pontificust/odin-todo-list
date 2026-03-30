@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', () => {
         name: 'Courier',
         totalXP: 0,
         level: 1,
-        rank: 'novice',
+        rank: 'drifter',
         id: 'defaultUser',
     });
 
